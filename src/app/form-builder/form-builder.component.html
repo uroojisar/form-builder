@@ -33,6 +33,9 @@
       <h3 style="text-align: center;">Sales Form</h3>
       <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
         <form id="salesform">
+          <ul id="sortable-list">
+            <li *ngFor="let item of items">{{ item }}</li>
+          </ul>
 
         </form>
       </div>

@@ -9,6 +9,53 @@ import { Component, ViewEncapsulation } from '@angular/core';
 export class FormBuilderComponent {
 
 
+  items: HTMLElement[] = [];
+  draggedItem: EventTarget | null = null;
+  
+  addItem(newItem: HTMLElement) {
+    newItem.addEventListener('mouseenter', this.handleMouseEnter);
+    newItem.addEventListener('mouseleave', this.handleMouseLeave);
+    this.items.push(newItem);
+
+  }
+
+
+  // Function to handle mouseenter event
+  handleMouseEnter(event: MouseEvent) {
+    // Store the item being dragged
+    this.draggedItem = event.target;
+
+    // Add a class to highlight the dragged item
+    (this.draggedItem as HTMLElement).classList.add('highlight');
+  }
+
+  // Function to handle mouseleave event
+handleMouseLeave(event: MouseEvent) {
+
+  var list = document.getElementById("sortable-list")!;
+  // Check if the draggedItem is not null and the event target is a list item
+  if (this.draggedItem && (event.target as HTMLElement).tagName === 'LI') {
+    // Get the index of the this.draggedItem
+    const draggedIndex = Array.from(this.items).indexOf(this.draggedItem as HTMLElement);
+
+    // Get the index of the current list item
+    const currentIndex = Array.from(this.items).indexOf(event.target as HTMLElement);
+    // Move the this.draggedItem to its new position
+    if (draggedIndex !== currentIndex) {
+      if (draggedIndex < currentIndex) {
+        list.insertBefore(this.draggedItem as HTMLElement, (event.target as HTMLElement).nextSibling);
+      } else {
+        list.insertBefore(this.draggedItem as HTMLElement, (event.target as HTMLElement));
+      }
+    }
+
+    // Remove the highlight class from the dragged item
+    (this.draggedItem as HTMLElement).classList.remove('highlight');
+    // Reset the draggedItem variable to null
+    this.draggedItem = null;
+  }
+}
+
   // Email validation function
   validateEmail(email: string) {
     var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -186,7 +233,9 @@ createWidget(event: DragEvent) {
   // formGroup.addEventListener("drop", dropOnCanvas);
   // formGroup.addEventListener("click", openEditTab);
 
-  document.getElementById("salesform")!.appendChild(formGroup);
+  // document.getElementById("salesform")!.appendChild(formGroup);
+  this.addItem(formGroup);
+  
 }
 
 }
