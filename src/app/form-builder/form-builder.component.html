@@ -1,43 +1,16 @@
-<!-- <div class="form-builder-container">
-    <div class="toolbox">
-      <div class="widget" *ngFor="let widget of widgets" draggable="true" (dragstart)="onDragStart($event, widget)">
-        {{ widget }}
-      </div>
-    </div>
-  
-    <div class="form">
-      <div class="dropzone" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
-        Drop Here
-      </div>
-  
-      <div class="form-preview">
-        <h3>Form Preview:</h3>
-        <div class="preview-items">
-          <div class="preview-item" *ngFor="let item of formItems">
-            {{ item }}
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="form-builder-container">
+<!-- <div class="config-navbar">
+    {% include 'formbuilder/config_navbar.html' %}
+</div>-->
+<div class="widgets-toolbox">
+  <app-widgets-toolbox></app-widgets-toolbox>
+</div>
+<div class="builder-canvas-background">
+  <h3 style="text-align: center;">Sales Form</h3>
+  <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
+    <form id="salesform">
+      <app-drop-zone *ngFor="let item of items" [items]="items" [item]="item"></app-drop-zone>
+    </form>
   </div>
-   -->
-
-   <div class="form-builder-container">
-    <!-- <div class="config-navbar">
-        {% include 'formbuilder/config_navbar.html' %}
-    </div>-->
-    <div class="widgets-toolbox">
-      <app-widgets-toolbox></app-widgets-toolbox>
-    </div>
-    <div class="builder-canvas-background">
-      <h3 style="text-align: center;">Sales Form</h3>
-      <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
-        <form id="salesform">
-          <ul id="sortable-list">
-            <li *ngFor="let item of items">{{ item }}</li>
-          </ul>
-
-        </form>
-      </div>
-      </div>
-    </div>
+  </div>
+</div>

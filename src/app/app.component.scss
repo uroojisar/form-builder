@@ -1,0 +1,37 @@
+.tab-content {
+    margin-top: 15px;
+
+    #tab2 {
+        display: none;
+    }
+
+    .dropdown-arrow > .fa-solid {
+        color: black !important;
+        float: right !important;
+    }
+
+    .dropdown.show{
+        display: flex !important;
+        justify-content:space-between !important;
+        align-items: center !important;
+    
+      }
+
+    .edit_widget_container_dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    padding: 10px;
+
+    .show {
+        display: block;
+      }
+
+    .labelInput {
+    font-weight: bold;
+    }
+    }
+}
+ 
+  

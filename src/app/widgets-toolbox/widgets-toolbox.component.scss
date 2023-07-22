@@ -9,35 +9,3 @@
     min-width: 120px;
     cursor: move;
 }
-.tab-content {
-    margin-top: 15px;
-}
-#tab2 {
-    display: none;
-}
-.edit_widget_container_dropdown {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 200px;
-    padding: 10px;
-  }
-
-  .edit_widget_container_dropdown.show {
-    display: block;
-  }
-  
-  .labelInput {
-    font-weight: bold;
-  }
-
-  .dropdown.show{
-    display: flex !important;
-    justify-content:space-between !important;
-    align-items: center !important;
-
-  }
-  .dropdown-arrow > .fa-solid {
-    color: black !important;
-    float: right !important;
-}

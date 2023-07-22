@@ -59,8 +59,14 @@
         }
       
         input[type="radio"] {
-            margin-left: 4px;
+            margin-left: 14px;
+            margin-right: 10px;
         }
+
+        input[type="checkbox"] {
+          margin-left: 14px;
+          margin-right: 10px;
+      }
       }
     
     }

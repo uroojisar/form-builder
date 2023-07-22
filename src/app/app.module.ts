@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { WidgetsToolboxComponent } from './widgets-toolbox/widgets-toolbox.component';
 import { FormsModule } from '@angular/forms'; // Two way data binding of form widgets
+import { DropZoneComponent } from './form-builder/drop-zone.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FormBuilderComponent,
-    WidgetsToolboxComponent
+    WidgetsToolboxComponent,
+    DropZoneComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,66 @@
+import { Component, Input } from '@angular/core';
+import { WidgetConfig } from './model';
+
+@Component({
+  selector: 'app-drop-zone',
+  template: `
+  <div class="form-group" id="{{item.name}}block" draggable="true" (click)="openEditTab($event)">
+    <div class="innerDiv">
+      <label>{{item.templateOptions.label}}</label>:
+      <div *ngIf="item.templateOptions.options; else otherWidget">
+        <div *ngFor="let option of item.templateOptions.options">
+          <input class="form-input" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock">
+          <label for="{{item.templateOptions.options[0].value}}">{{item.templateOptions.options[0].label}}</label><br>
+        </div>
+      </div>
+      <ng-template #otherWidget>
+      <input class="form-input" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock" placeholder="{{item.templateOptions.label}}">
+      </ng-template>
+      </div>
+      <button class="close" aria-label="close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+    `,
+    
+})
+export class DropZoneComponent {
+
+  @Input('item') item : WidgetConfig | { [key: string]: any; } = {};
+  @Input('items') items : WidgetConfig[] | [{ [key: string]: any; }] = [];
+
+
+  // Tab 2
+  //***************************************************************************** */
+  openEditTab(event: Event) {
+
+      // Show the selected tab content
+  var selectedTab = document.getElementById("tab2");
+
+  document.getElementById("tab2-tab")!.click();
+  document.getElementById("tab1-tab")!.classList.remove("show");
+  document.getElementById("tab1-tab")!.classList.remove("active");
+  selectedTab?.classList.add("show");
+  selectedTab?.classList.add("active");
+  selectedTab!.style.display = "block";
+  document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value = (event.currentTarget as HTMLElement).querySelector("label")!.innerHTML;
+  document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.addEventListener('keypress', function(event) {
+    if (event.key === 'Enter'){
+      console.log("Heloo");
+      (event.currentTarget as HTMLElement).querySelector("label")!.innerHTML = document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value; 
+    
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var dropdownBtn = document.querySelector(".dropdown-arrow");
+    var dropdownContent = document.querySelector(
+      ".edit_widget_container_dropdown"
+    );
+    dropdownBtn?.addEventListener("click", function () {
+      dropdownContent?.classList.toggle("show");
+    });
+  }
+  )};
+
+}
