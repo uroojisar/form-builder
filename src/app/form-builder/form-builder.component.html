@@ -9,7 +9,7 @@
   <h3 style="text-align: center;">Sales Form</h3>
   <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
     <form id="salesform">
-      <app-drop-zone *ngFor="let item of items" [items]="items" [item]="item"></app-drop-zone>
+      <app-drop-zone [items]="items"></app-drop-zone>
     </form>
   </div>
   </div>

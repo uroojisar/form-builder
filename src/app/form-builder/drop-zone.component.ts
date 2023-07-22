@@ -1,10 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { WidgetConfig } from './model';
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-drop-zone',
   template: `
-  <div class="form-group" id="{{item.name}}block" draggable="true" (click)="openEditTab($event)">
+  <div cdkDropList (cdkDropListDropped)="drop($event)">
+  <div *ngFor="let item of items">
+  <div class="form-group" id="{{item.name}}block" cdkDrag (click)="openEditTab($event)">
     <div class="innerDiv">
       <label>{{item.templateOptions.label}}</label>:
       <div *ngIf="item.templateOptions.options; else otherWidget">
@@ -21,14 +24,20 @@ import { WidgetConfig } from './model';
         <span aria-hidden="true">&times;</span>
       </button>
   </div>
+  </div>
+  </div>
     `,
     
 })
 export class DropZoneComponent {
 
   @Input('item') item : WidgetConfig | { [key: string]: any; } = {};
-  @Input('items') items : WidgetConfig[] | [{ [key: string]: any; }] = [];
+  @Input('items') items : WidgetConfig[] | any = [];
 
+
+  drop(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.items, event.previousIndex, event.currentIndex);
+  }
 
   // Tab 2
   //***************************************************************************** */
