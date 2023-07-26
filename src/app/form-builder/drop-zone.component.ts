@@ -35,6 +35,7 @@ export class DropZoneComponent {
   @Input('items') items : WidgetConfig[] | any = [];
 
 
+  // Reordering
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
   }
@@ -44,32 +45,33 @@ export class DropZoneComponent {
   openEditTab(event: Event) {
 
       // Show the selected tab content
-  var selectedTab = document.getElementById("tab2");
+  const selectedTab = document.getElementById("tab2-tab");
+  const previousTab = document.getElementById("tab1-tab");
+  const selectedTabsContent = document.getElementById("tab2");
 
-  document.getElementById("tab2-tab")!.click();
-  document.getElementById("tab1-tab")!.classList.remove("show");
-  document.getElementById("tab1-tab")!.classList.remove("active");
-  selectedTab?.classList.add("show");
-  selectedTab?.classList.add("active");
-  selectedTab!.style.display = "block";
+  (selectedTab as HTMLElement).click();
+  previousTab!.classList.remove("show");
+  previousTab!.classList.remove("active");
+  selectedTabsContent!.classList.remove("fade");
+  selectedTabsContent!.classList.add("show");
+  selectedTabsContent!.classList.add("active");
+  selectedTabsContent!.style.display = "block";
   document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value = (event.currentTarget as HTMLElement).querySelector("label")!.innerHTML;
-  document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.addEventListener('keypress', function(event) {
-    if (event.key === 'Enter'){
-      console.log("Heloo");
-      (event.currentTarget as HTMLElement).querySelector("label")!.innerHTML = document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value; 
+  // document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.addEventListener('keypress', function(event) {
+  //   if (event.key === 'Enter'){
+  //     console.log("Heloo");
+  //     (event.currentTarget as HTMLElement).querySelector("label")!.innerHTML = document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value; 
     
-    }
-  });
+  //   }
+  // });
 
-  document.addEventListener("DOMContentLoaded", function () {
-    var dropdownBtn = document.querySelector(".dropdown-arrow");
-    var dropdownContent = document.querySelector(
-      ".edit_widget_container_dropdown"
-    );
-    dropdownBtn?.addEventListener("click", function () {
-      dropdownContent?.classList.toggle("show");
-    });
-  }
-  )};
+  var dropdownBtn = document.querySelector(".dropdown-arrow");
+  var dropdownContent = document.querySelector(
+    ".edit_widget_container_dropdown"
+  );  
+  dropdownBtn?.addEventListener("click", function () {
+    dropdownContent?.classList.toggle("show");
+  });
+}
 
 }
