@@ -8,6 +8,9 @@ import { WidgetsToolboxComponent } from './widgets-toolbox/widgets-toolbox.compo
 import { FormsModule } from '@angular/forms'; // Two way data binding of form widgets
 import { DropZoneComponent } from './form-builder/drop-zone.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
+    BrowserAnimationsModule,
+    MatInputModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

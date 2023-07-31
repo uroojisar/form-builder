@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
-import { WidgetConfig, widgetFormInputCheckbox, widgetFormInputEmail, widgetFormInputRadio, widgetFormInputText } from './model';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { Widget, WidgetConfig, widgetFormInputCheckbox, widgetFormInputEmail, widgetFormInputRadio, widgetFormInputText } from './model';
 
 @Component({
   selector: 'app-form-builder',
@@ -9,10 +9,9 @@ import { WidgetConfig, widgetFormInputCheckbox, widgetFormInputEmail, widgetForm
 })
 export class FormBuilderComponent {
 
-  items: WidgetConfig[] = [];
-  // draggedItem: EventTarget | null = null;
+  items: Widget[] = [];
   
-  addItem(newItem: WidgetConfig) {
+  addItem(newItem: Widget) {
     
     this.items.push(newItem);
 
@@ -54,17 +53,7 @@ export class FormBuilderComponent {
   onDrop(event: DragEvent)  {
 
   event.preventDefault();
-  // Skip this handler method if widgets are being reordered on the canvas
-  // In this way no widget clone is created
-  if (
-    (event.target as HTMLElement).classList.contains("form-group") || event.dataTransfer?.getData("widgetID")) {
-    console.log("ondrop if")
-    // handleWidgetReorder(event);
-  } else {
-    console.log("ondrop else")
-    this.createWidget(event);
-
-  }
+  this.createWidget(event);
   event.stopPropagation();
 }
 
@@ -72,20 +61,29 @@ createWidget(event: DragEvent) {
   
 
   var data = event.dataTransfer?.getData("text")!;
-  var widget = this.getWidgetType(data);
-  
-  if (widget == "text") {
-    
-    this.addItem(widgetFormInputText);
+  var widgetType = this.getWidgetType(data);
+  var widgetId = Date.now().toString();
+  const widget: Widget | any = {id: '', type: { }, isConditional: false};
+
+  if (widgetType == "text") {
+    widget.id = widgetId;
+    widget.type = widgetFormInputText;
+    widget.isConditional = false;
+    this.addItem(widget);
 
 
-  } else if (widget == "checkbox") {
-
-    this.addItem(widgetFormInputCheckbox);
+  } else if (widgetType == "checkbox") {
+    widget.id = widgetId;
+    widget.type = widgetFormInputCheckbox;
+    widget.isConditional = false;
+    this.addItem(widget);
   }
 
-  else if (widget == "email") {
-    this.addItem(widgetFormInputEmail);
+  else if (widgetType == "email") {
+    widget.id = widgetId;
+    widget.type = widgetFormInputEmail;
+    widget.isConditional = false;
+    this.addItem(widget);
 
 
     // // // *****************************VALIDATE EMAIL INPUT*****************************
@@ -110,17 +108,12 @@ createWidget(event: DragEvent) {
     // });
 
   }
-  else if (widget == "radio") {
-    this.addItem(widgetFormInputRadio);
+  else if (widgetType == "radio") {
+    widget.id = widgetId;
+    widget.type = widgetFormInputRadio;
+    widget.isConditional = true;
+    this.addItem(widget);
   }
-
-  // Add event listeners for reordering of form widgets when they are created/
-  // as soon as they are dropped on the canvas
-  // formGroup.addEventListener("dragover", handleDragOver);
-  // formGroup.addEventListener("dragstart", handleDragStart);
-  // formGroup.addEventListener("dragend", handleDragEnd);
-  // formGroup.addEventListener("drop", dropOnCanvas);
-  // formGroup.addEventListener("click", openEditTab);
   
 }
 

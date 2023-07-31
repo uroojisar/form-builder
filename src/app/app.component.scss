@@ -19,10 +19,7 @@
 
     .edit_widget_container_dropdown {
     display: none;
-    position: absolute;
-    background-color: #f9f9f9;
     min-width: 200px;
-    padding: 10px;
 
     &.show {
         display: block;
@@ -30,6 +27,22 @@
 
     .labelInput {
     font-weight: bold;
+    }
+
+    .font-weight-light {
+      color: #7d7c7c;
+      margin-top: 15px;
+      margin-bottom: 5px;
+    }
+    .enclose{
+      background-color: #f9f9f9;
+      padding: 12px;
+      border-radius: 7px;
+
+      .widgetLabel{
+        min-width: 100%;
+      }
+
     }
     }
 }
