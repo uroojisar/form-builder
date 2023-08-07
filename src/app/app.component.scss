@@ -10,20 +10,20 @@
         float: right !important;
     }
 
-    .dropdown.show{
-        display: flex !important;
-        justify-content:space-between !important;
-        align-items: center !important;
+    // .dropdown.show{
+    //     display: flex !important;
+    //     justify-content:space-between !important;
+    //     align-items: center !important;
     
-      }
+    //   }
 
     .edit_widget_container_dropdown {
-    display: none;
+    // display: none;
     min-width: 200px;
 
-    &.show {
-        display: block;
-      }
+    // &.show {
+    //     display: block;
+    //   }
 
     .labelInput {
     font-weight: bold;
