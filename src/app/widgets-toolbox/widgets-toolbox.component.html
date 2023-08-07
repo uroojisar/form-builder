@@ -60,17 +60,17 @@
                 </select>
                 <i style="padding-left: 10px;">this field if</i>
               <!-- Make conditional selection here -->
-              <select>
-                <option>Multiple Choice 1</option>
-                <option>Multiple Choice 2</option>
-              </select>
-              <select>
-                <option>is</option>
-              </select>
-              <select>
-                <option>Yes</option>
-                <option>No</option>
-              </select>
+              <select class="widgetLabelSelect" [(ngModel)]="selectedValue1" (change)="onFirstSelectChange()">
+              <ng-container *ngFor="let widget of items" >
+                    <option [value]="widget.id" *ngIf="widget.isConditional">{{widget.type.templateOptions.label}}</option>
+                </ng-container>
+              </select> 
+                 is
+                <select class="second-select" [(ngModel)]="selectedValue2" >
+                    <option *ngFor="let option of secondSelectOptions" [value]="option.value">{{ option.label }}</option>
+                </select>
+
+                <!-- Second logic -->
             </div>
             </div>
         </div>
