@@ -25,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
   styles: ['.max-height { max-height: 90vh; }'],
 })
 
-export class FormBuilderDialog {
+export class FormPreviewDialog {
     constructor(
       @Inject(MAT_DIALOG_DATA) public data: { fields: FormlyFieldConfig[] }
     ) {}
@@ -37,8 +37,11 @@ export class FormBuilderDialog {
 
   
   // The service will be available application wide
-  @Injectable({providedIn: 'root',})
+@Injectable({providedIn: 'root',})
 export class FormBuilderService {
+
+   // form preview
+   constructor(private dialog: MatDialog) {}
 
   // shared seervice to get selected widget on gear icon
   private activeWidgetIdSource = new BehaviorSubject<string>('Initial Value');
@@ -48,13 +51,10 @@ export class FormBuilderService {
     this.activeWidgetIdSource.next(newValue);
   }
 
-  // form preview
-  constructor(private dialog: MatDialog) {}
-
   openPreviewModal(
     fields: FormlyFieldConfig[]
-  ): MatDialogRef<FormBuilderDialog> {
-    return this.dialog.open(FormBuilderDialog, { data: { fields } });
+  ): MatDialogRef<FormPreviewDialog> {
+    return this.dialog.open(FormPreviewDialog, { data: { fields } });
   }
 }
 
@@ -66,7 +66,7 @@ imports: [
     FormlyModule.forChild(),
 ],
 providers: [],
-declarations: [FormBuilderDialog],
+declarations: [FormPreviewDialog],
 })
 export class FormBuilderModule {}
 
