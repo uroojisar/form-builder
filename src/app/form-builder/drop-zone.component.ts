@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Widget } from './model';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import { FormBuilderService } from '../services/form-builder-service';
 
 @Component({
   selector: 'app-drop-zone',
@@ -40,7 +41,13 @@ export class DropZoneComponent {
 
   @Input('item') item : Widget | { [key: string]: any; } = {};
   @Input('items') items : Widget[] | any = [];
+  activeWidgetId: string = '';
 
+  constructor(private dataService: FormBuilderService) {
+  }
+  updateactiveWidgetId(widgetId: string) {
+    this.dataService.updateactiveWidgetId(widgetId);
+  }
 
   // Reordering
   drop(event: CdkDragDrop<string[]>) {
@@ -68,6 +75,7 @@ export class DropZoneComponent {
   //***************************************************************************** */
   openEditTab(event: Event, widgetId: string) {
 
+    this.updateactiveWidgetId(widgetId);
       // Show the selected tab content
   const selectedTab = document.getElementById("tab2-tab");
   const previousTab = document.getElementById("tab1-tab");

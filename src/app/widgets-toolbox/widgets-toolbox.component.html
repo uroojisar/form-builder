@@ -32,7 +32,7 @@
     </div>
     <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="tab2-tab">
       <div class="dropdown">
-            Edit Fields
+            Edit Fields 
             <a class="text-black dropdown-arrow" data-toggle="collapse" href="#edit_widget_container_dropdown"><i class="fa-solid fa-chevron-right"></i></a> 
             <div class="edit_widget_container_dropdown collapse" id="edit_widget_container_dropdown">
               
@@ -49,6 +49,7 @@
               <!-- Smart Logic -->
 
               <p class="font-weight-light">Smart Logic</p>
+
               <div class="enclose">
                 <div class="form-check form-switch">
                   <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
@@ -61,8 +62,9 @@
                 <i style="padding-left: 10px;">this field if</i>
               <!-- Make conditional selection here -->
               <select class="widgetLabelSelect" [(ngModel)]="selectedValue1" (change)="onFirstSelectChange()">
-              <ng-container *ngFor="let widget of items" >
-                    <option [value]="widget.id" *ngIf="widget.isConditional">{{widget.type.templateOptions.label}}</option>
+                <option value="">Select an option</option> 
+                <ng-container *ngFor="let widget of items">
+                    <option [value]="widget.id" *ngIf="widget.templateOptions.isConditional && widget.id != activeWidgetId">{{widget.templateOptions.label}}</option>
                 </ng-container>
               </select> 
                  is

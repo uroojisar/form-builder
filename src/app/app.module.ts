@@ -14,7 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { FormlyModule } from '@ngx-formly/core';
-import { FormPreviewService } from './services/form-preview-service';
+import { FormBuilderService } from './services/form-builder-service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
@@ -42,7 +42,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     FormlyModule.forRoot(),
 
   ],
-  providers: [FormPreviewService],
+  providers: [FormBuilderService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

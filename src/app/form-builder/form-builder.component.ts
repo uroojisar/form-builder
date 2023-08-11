@@ -1,6 +1,6 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { Widget, widgetFormInputCheckbox, widgetFormInputEmail, widgetFormInputRadio, widgetFormInputText } from './model';
-import { FormPreviewService } from '../services/form-preview-service';
+import { FormBuilderService } from '../services/form-builder-service';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
@@ -12,7 +12,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 export class FormBuilderComponent {
 
   constructor(
-    private formPreviewService: FormPreviewService,
+    private FormBuilderService: FormBuilderService,
   ) {}
 
   items: Widget[] = [];
@@ -134,7 +134,7 @@ createWidget(event: DragEvent) {
 
 // Show form preview
 showPreview(fields: FormlyFieldConfig[]) {
-  this.formPreviewService.openPreviewModal(fields);
+  this.FormBuilderService.openPreviewModal(fields);
 }
 
 }
