@@ -35,8 +35,9 @@ export class FormBuilderDialog {
 
   }
 
-  // providedIn is used to set a common data variable (activeWidgetId) accross all of the app components
-@Injectable({providedIn: 'root',})
+  
+  // The service will be available application wide
+  @Injectable({providedIn: 'root',})
 export class FormBuilderService {
 
   // shared seervice to get selected widget on gear icon
@@ -64,7 +65,7 @@ imports: [
     FormlyBootstrapModule,
     FormlyModule.forChild(),
 ],
-providers: [FormBuilderService],
+providers: [],
 declarations: [FormBuilderDialog],
 })
 export class FormBuilderModule {}
