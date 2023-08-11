@@ -7,6 +7,20 @@
 </div>
 <div class="builder-canvas-background">
   <h3 style="text-align: center;">Sales Form</h3>
+  <mat-toolbar class="flex flex-row justify-between">
+    
+    <ng-container *ngIf="items.length">
+      <button
+        [disabled]="items.length < 1"
+        mat-raised-button
+        color="primary"
+        (click)="showPreview(items)"
+      >
+        <mat-icon> visibility </mat-icon>
+        Form preview
+      </button>
+    </ng-container>
+  </mat-toolbar>
   <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
     <form id="salesform">
       <app-drop-zone [items]="items"></app-drop-zone>

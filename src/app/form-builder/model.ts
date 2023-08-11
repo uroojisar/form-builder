@@ -1,15 +1,12 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
 
-// need to create a model for storing conditional logic of widget
-// export type Todo = FormlyFieldConfig & {
-
-// };
-
 export type Widget = FormlyFieldConfig & {
+  name: WidgetInputType;
+  type: string;
   id: string;
-  type: WidgetConfig;
-  isConditional: boolean;
-  // displayLogic?: Todo[];
+  key: string;
+  templateOptions: {};
+  
 };
 
 export type WidgetInputType =
@@ -21,21 +18,13 @@ export type WidgetInputType =
   | 'Email'
   | 'Group';
 
-export type WidgetConfig =  FormlyFieldConfig & {
-  name: WidgetInputType;
-  icon: string;
-  temp: boolean;
-  id: string;
-  fieldGroup?: WidgetConfig[];
-};
-
-export const widgetFormInputText: WidgetConfig = {
+export const widgetFormInputText: Widget = {
   name: 'Text',
-  icon: 'text_fields',
-  temp: false,
   type: 'input',
   id: '1',
+  key: '1',
   templateOptions: {
+    isConditional: false,
     type: 'text',
     label: 'Text Label',
     placeholder: "Enter your text here...",
@@ -43,13 +32,13 @@ export const widgetFormInputText: WidgetConfig = {
   },
 };
 
-export const widgetFormInputEmail: WidgetConfig = {
+export const widgetFormInputEmail: Widget = {
   name: 'Email',
-  icon: 'text_fields',
-  temp: false,
   type: 'email',
   id: '2',
+  key: '2',
   templateOptions: {
+    isConditional: false,
     type: 'email',
     label: 'Email',
     placeholder: "johndoe@gmail.com",
@@ -57,13 +46,13 @@ export const widgetFormInputEmail: WidgetConfig = {
   },
 };
 
-export const widgetFormInputNumber: WidgetConfig = {
+export const widgetFormInputNumber: Widget = {
   name: 'Number',
-  temp: false,
-  icon: 'numbers',
   type: 'input',
   id: '3',
+  key: '3',
   templateOptions: {
+    isConditional: false,
     type: 'number',
     label: 'Number Label',
     placeholder: "021 12233445",
@@ -71,25 +60,25 @@ export const widgetFormInputNumber: WidgetConfig = {
   },
 };
 
-export const widgetFormInputDatepicker: WidgetConfig = {
+export const widgetFormInputDatepicker: Widget = {
   name: 'DatePicker',
-  temp: false,
-  icon: 'today',
   type: 'datepicker',
   id: '4',
+  key: '4',
   templateOptions: {
+    isConditional: false,
     label: 'Date Picker Label',
     required: true,
   },
 };
 
-export const widgetFormInputRadio: WidgetConfig = {
+export const widgetFormInputRadio: Widget = {
   name: 'Radio',
-  temp: false,
-  icon: 'radio_button_checked',
   type: 'radio',
   id: '5',
+  key: '5',
   templateOptions: {
+    isConditional: true,
     type: 'radio',
     label: 'Select one of the following',
     required: true,
@@ -97,25 +86,14 @@ export const widgetFormInputRadio: WidgetConfig = {
   },
 };
 
-export const widgetFormInputGroup: WidgetConfig = {
-  name: 'Group',
-  icon: 'list_alt',
-  temp: false,
-  id: '6',
-  fieldGroup: [],
-  templateOptions: {
-    label: 'Group Label',
-  },
-};
 
-export const widgetFormInputCheckbox: WidgetConfig = {
+export const widgetFormInputCheckbox: Widget = {
   name: 'Checkbox',
-  icon: 'check_box',
-  temp: false,
   type: 'checkbox',
   id: '7',
-  defaultValue: false,
+  key: '7',
   templateOptions: {
+    isConditional: false,
     type: 'checkbox',
     label: 'Checkbox Label',
     required: true,
@@ -123,12 +101,11 @@ export const widgetFormInputCheckbox: WidgetConfig = {
   },
 };
 
-export const widgetFormInputs: WidgetConfig[] = [
+export const widgetFormInputs: Widget[] = [
   widgetFormInputText,
   widgetFormInputNumber,
   widgetFormInputCheckbox,
   widgetFormInputRadio,
   widgetFormInputDatepicker,
-  widgetFormInputGroup,
 ];
 

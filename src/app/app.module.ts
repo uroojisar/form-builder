@@ -5,12 +5,18 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormBuilderComponent } from './form-builder/form-builder.component';
 import { WidgetsToolboxComponent } from './widgets-toolbox/widgets-toolbox.component';
-import { FormsModule } from '@angular/forms'; // Two way data binding of form widgets
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // Two way data binding of form widgets
 import { DropZoneComponent } from './form-builder/drop-zone.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { FormlyModule } from '@ngx-formly/core';
+import { FormPreviewService } from './services/form-preview-service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 
 @NgModule({
   declarations: [
@@ -26,9 +32,17 @@ import { MatCardModule } from '@angular/material/card';
     DragDropModule,
     BrowserAnimationsModule,
     MatInputModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule,
+    FormlyModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    FormlyBootstrapModule,
+    FormlyModule.forRoot(),
+
   ],
-  providers: [],
+  providers: [FormPreviewService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

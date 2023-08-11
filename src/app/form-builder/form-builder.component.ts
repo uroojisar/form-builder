@@ -1,5 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
-import { Widget, WidgetConfig, widgetFormInputCheckbox, widgetFormInputEmail, widgetFormInputRadio, widgetFormInputText } from './model';
+import { Widget, widgetFormInputCheckbox, widgetFormInputEmail, widgetFormInputRadio, widgetFormInputText } from './model';
+import { FormPreviewService } from '../services/form-preview-service';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-form-builder',
@@ -8,6 +10,10 @@ import { Widget, WidgetConfig, widgetFormInputCheckbox, widgetFormInputEmail, wi
   encapsulation: ViewEncapsulation.None
 })
 export class FormBuilderComponent {
+
+  constructor(
+    private formPreviewService: FormPreviewService,
+  ) {}
 
   items: Widget[] = [];
   
@@ -63,26 +69,33 @@ createWidget(event: DragEvent) {
   var data = event.dataTransfer?.getData("text")!;
   var widgetType = this.getWidgetType(data);
   var widgetId = Date.now().toString();
+  var key = widgetId;
   const widget: Widget | any = {id: '', type: { }, isConditional: false};
 
   if (widgetType == "text") {
     widget.id = widgetId;
-    widget.type = widgetFormInputText;
-    widget.isConditional = false;
+    widget.key = widgetType;
+    widget.name = widgetFormInputText.name;
+    widget.type = widgetFormInputText.type;
+    widget.templateOptions = widgetFormInputText.templateOptions;
     this.addItem(widget);
 
 
   } else if (widgetType == "checkbox") {
     widget.id = widgetId;
-    widget.type = widgetFormInputCheckbox;
-    widget.isConditional = false;
+    widget.key = widgetType;
+    widget.name = widgetFormInputCheckbox.name;
+    widget.type = widgetFormInputCheckbox.type;
+    widget.templateOptions = widgetFormInputCheckbox.templateOptions;
     this.addItem(widget);
   }
 
   else if (widgetType == "email") {
     widget.id = widgetId;
-    widget.type = widgetFormInputEmail;
-    widget.isConditional = false;
+    widget.key = widgetType;
+    widget.name = widgetFormInputEmail.name;
+    widget.type = widgetFormInputEmail.type;
+    widget.templateOptions = widgetFormInputEmail.templateOptions;
     this.addItem(widget);
 
 
@@ -110,11 +123,18 @@ createWidget(event: DragEvent) {
   }
   else if (widgetType == "radio") {
     widget.id = widgetId;
-    widget.type = widgetFormInputRadio;
-    widget.isConditional = true;
+    widget.key = widgetType;
+    widget.name = widgetFormInputRadio.name;
+    widget.type = widgetFormInputRadio.type;
+    widget.templateOptions = widgetFormInputRadio.templateOptions;
     this.addItem(widget);
   }
   
+}
+
+// Show form preview
+showPreview(fields: FormlyFieldConfig[]) {
+  this.formPreviewService.openPreviewModal(fields);
 }
 
 }

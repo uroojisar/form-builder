@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Widget, WidgetConfig } from './model';
-import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import { Widget } from './model';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-drop-zone',
@@ -17,15 +17,15 @@ import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/d
       </button>
     </div>
     <div class="innerDiv">
-      <label>{{item.type.templateOptions.label}}</label>:
-      <div *ngIf="item.type.templateOptions.options; else otherWidget">
-        <div *ngFor="let option of item.type.templateOptions.options">
-          <input class="form-input" type="{{item.type.templateOptions.type}}" id="{{item.type.name}}InputBlock">
+      <label>{{item.templateOptions.label}}</label>:
+      <div *ngIf="item.templateOptions.options; else otherWidget">
+        <div *ngFor="let option of item.templateOptions.options">
+          <input class="form-input" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock">
           <label for="{{option.value}}">{{option.label}}</label><br>
         </div>
       </div>
       <ng-template #otherWidget>
-      <input matInput class="form-control" type="{{item.type.templateOptions.type}}" id="{{item.name}}InputBlock" placeholder="{{item.type.templateOptions.placeholder}}">
+      <input matInput class="form-control" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock" placeholder="{{item.templateOptions.placeholder}}">
       </ng-template>
       </div>
   </div>

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Widget, WidgetConfig } from '../form-builder/model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Widget } from '../form-builder/model';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
