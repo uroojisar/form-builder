@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Widget } from './model';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
 import { FormBuilderService } from '../services/form-builder-service';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { FieldOptionsComponent } from '../field-options/field-options.component';
 
 @Component({
   selector: 'app-drop-zone',
@@ -10,7 +12,7 @@ import { FormBuilderService } from '../services/form-builder-service';
   <div *ngFor="let item of items">
   <div class="card" id={{item.id}} cdkDrag>
     <div class="card-header">
-      <button class="gearicon" (click)="openEditTab($event, item.id)">
+      <button class="gearicon" (click)="openWidgetSettings()">
       <i class="fa fa-cog" aria-hidden="true"></i>
       </button>
       <button class="closebtn" aria-label="close" (click)="removeWidget($event, item.id)">
@@ -44,6 +46,11 @@ export class DropZoneComponent {
   activeWidgetId: string = '';
 
   constructor(private dataService: FormBuilderService) {
+  }
+
+  openWidgetSettings(): void {
+    const componentPortal = new ComponentPortal(FieldOptionsComponent);
+    this.dataService.openWidgetSettingsDialog(componentPortal);
   }
   updateactiveWidgetId(widgetId: string) {
     this.dataService.updateactiveWidgetId(widgetId);

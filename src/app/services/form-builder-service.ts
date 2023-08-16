@@ -9,6 +9,9 @@ import {
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { BehaviorSubject } from 'rxjs';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { FieldOptionsContentComponent } from '../field-options-content/field-options-content.component';
+import { FieldOptionsComponent } from '../field-options/field-options.component';
 
 
 
@@ -55,6 +58,13 @@ export class FormBuilderService {
     fields: FormlyFieldConfig[]
   ): MatDialogRef<FormPreviewDialog> {
     return this.dialog.open(FormPreviewDialog, { data: { fields } });
+  }
+
+  openWidgetSettingsDialog(componentPortal: ComponentPortal<any>): void {
+    this.dialog.open(FieldOptionsContentComponent, {
+      width: '400px',
+      data: componentPortal,
+    });
   }
 }
 

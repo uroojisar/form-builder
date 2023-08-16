@@ -1,0 +1,29 @@
+.dropdown-arrow>.fa-solid {
+    color: black !important;
+    float: right !important;
+}
+
+.edit_widget_container_dropdown {
+    min-width: 200px;
+
+    .labelInput {
+        font-weight: bold;
+    }
+
+    .font-weight-light {
+        color: #7d7c7c;
+        margin-top: 15px;
+        margin-bottom: 5px;
+    }
+
+    .enclose {
+        background-color: #f9f9f9;
+        padding: 12px;
+        border-radius: 7px;
+
+        .widgetLabel {
+            min-width: 100%;
+        }
+
+    }
+}

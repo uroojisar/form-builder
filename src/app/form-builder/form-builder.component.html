@@ -3,7 +3,7 @@
     {% include 'formbuilder/config_navbar.html' %}
 </div>-->
 <div class="widgets-toolbox">
-  <app-widgets-toolbox [items]="items"></app-widgets-toolbox>
+  <app-widgets-toolbox></app-widgets-toolbox>
 </div>
 <div class="builder-canvas-background">
   <h3 style="text-align: center;">Sales Form</h3>
@@ -23,7 +23,8 @@
   </mat-toolbar>
   <div class="dropzone" id="canvas" (drop)="onDrop($event)" (dragover)="onDragOver($event)">
     <form id="salesform">
-      <app-drop-zone [items]="items"></app-drop-zone>
+      <app-drop-zone [items]="items">
+      </app-drop-zone>
     </form>
   </div>
   </div>

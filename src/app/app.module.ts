@@ -17,6 +17,8 @@ import { FormlyModule } from '@ngx-formly/core';
 import { FormBuilderService } from './services/form-builder-service';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FieldOptionsComponent } from './field-options/field-options.component';
+import { FieldOptionsContentComponent } from './field-options-content/field-options-content.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
     FormBuilderComponent,
     WidgetsToolboxComponent,
     DropZoneComponent,
+    FieldOptionsComponent,
+    FieldOptionsContentComponent,
   ],
   imports: [
     BrowserModule,
