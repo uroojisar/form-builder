@@ -12,7 +12,7 @@ import { FieldOptionsComponent } from '../field-options/field-options.component'
   <div *ngFor="let item of items">
   <div class="card" id={{item.id}} cdkDrag>
     <div class="card-header">
-      <button class="gearicon" (click)="openWidgetSettings()">
+      <button class="gearicon" (click)="openWidgetSettings(item.id)">
       <i class="fa fa-cog" aria-hidden="true"></i>
       </button>
       <button class="closebtn" aria-label="close" (click)="removeWidget($event, item.id)">
@@ -46,13 +46,18 @@ export class DropZoneComponent {
   activeWidgetId: string = '';
 
   constructor(private dataService: FormBuilderService) {
+    // this.dataService.widgetList$.subscribe(value => {
+    //   this.items = value;
+    // });
   }
 
-  openWidgetSettings(): void {
+  openWidgetSettings(widgetId: string): void {
+    this.updateactiveWidgetId(widgetId);
     const componentPortal = new ComponentPortal(FieldOptionsComponent);
     this.dataService.openWidgetSettingsDialog(componentPortal);
   }
   updateactiveWidgetId(widgetId: string) {
+    console.log("widgetId uodated: ", widgetId)
     this.dataService.updateactiveWidgetId(widgetId);
   }
 
@@ -61,56 +66,15 @@ export class DropZoneComponent {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
   }
 
-  changeWidgetLabel(widgetId: string, newLabel: string){
-    this.items.forEach((item: { id: string; templateOptions: { label: string; }; }) => {
-      debugger
-      if (item.id === widgetId){
-        item.templateOptions.label = newLabel;
-      }
-      
-    });
-    
-    }
-
   removeWidget(event: Event, widgetId: string){
     event.preventDefault();
     const element = document.getElementById(widgetId);
     element!.remove();
+    // also remove from list
+    this.items.splice(this.items.indexOf(this.items.find((widget: Widget) => widget.id === widgetId)), 1);
+    
+
   }
-
-  // Tab 2
-  //***************************************************************************** */
-  openEditTab(event: Event, widgetId: string) {
-
-    this.updateactiveWidgetId(widgetId);
-      // Show the selected tab content
-  const selectedTab = document.getElementById("tab2-tab");
-  const previousTab = document.getElementById("tab1-tab");
-  const selectedTabsContent = document.getElementById("tab2");
-
-  (selectedTab as HTMLElement).click();
-  previousTab!.classList.remove("show");
-  previousTab!.classList.remove("active");
-  selectedTabsContent!.classList.remove("fade");
-  selectedTabsContent!.classList.add("show");
-  selectedTabsContent!.classList.add("active");
-  selectedTabsContent!.style.display = "block";
-  document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value = document.getElementById(widgetId)!.querySelector("label")!.innerHTML;
-  document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter'){
-      // change widget label
-      this.changeWidgetLabel(widgetId, document.getElementById("edit_widget_container_dropdown")!.querySelector("input")!.value);
-    }
-  });
-
-  var dropdownBtn = document.querySelector(".dropdown-arrow");
-  var dropdownContent = document.querySelector(
-    ".edit_widget_container_dropdown"
-  );  
-  dropdownBtn?.addEventListener("click", function () {
-    dropdownContent?.classList.toggle("show");
-  });
-}
 
 }
 

@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { FieldOptionsContentComponent } from '../field-options-content/field-options-content.component';
 import { FieldOptionsComponent } from '../field-options/field-options.component';
+import { Widget } from '../form-builder/model';
 
 
 
@@ -43,15 +44,24 @@ export class FormPreviewDialog {
 @Injectable({providedIn: 'root',})
 export class FormBuilderService {
 
-   // form preview
-   constructor(private dialog: MatDialog) {}
+  // form preview
+  constructor(private dialog: MatDialog) {}
 
   // shared seervice to get selected widget on gear icon
   private activeWidgetIdSource = new BehaviorSubject<string>('Initial Value');
   activeWidgetId$ = this.activeWidgetIdSource.asObservable();
 
+  widgetListSource: BehaviorSubject<Widget[]> =  new BehaviorSubject<Widget[]>([]);
+  widgetList$ = this.widgetListSource.asObservable(); 
+
   updateactiveWidgetId(newValue: string) {
     this.activeWidgetIdSource.next(newValue);
+  }
+  
+  updateWidgetList(newWidget: Widget) {
+    const currentWidgets = this.widgetListSource.value;
+    currentWidgets.push(newWidget);
+    this.widgetListSource.next(currentWidgets);
   }
 
   openPreviewModal(

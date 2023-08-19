@@ -1,16 +1,21 @@
 <div class="dropdown">
     Edit Fields 
-    <a class="text-black dropdown-arrow" data-toggle="collapse" href="#edit_widget_container_dropdown"><i class="fa-solid fa-chevron-right"></i></a> 
-    <div class="edit_widget_container_dropdown collapse" id="edit_widget_container_dropdown">
+    <div class="edit_widget_container_dropdown" id="edit_widget_container_dropdown">
       
       <!-- General settings -->
       <p class="font-weight-light">General</p>
       <div class="enclose">
-        <label for="labelInput">Label:</label>
-        <input type="text" class="widgetLabel">
+        <form [formGroup]="myForm">
+          <label for="labelInput">Label:</label>
+          
+          <input *ngIf="myForm" type="text" formControlName="widgetLabel" class="widgetLabel">
+          <div *ngIf="myForm?.get('widgetLabel')?.hasError('required') && myForm?.get('widgetLabel')?.touched" class="error-message">
+            Input value is required.
+          </div>
     
         <label for="descriptionInput">Description:</label>
-        <textarea class="form-control" id="desc" rows="3"></textarea>
+        <textarea *ngIf="myForm" formControlName="widgetDesc" class="form-control" id="desc" rows="3"></textarea>
+      </form>
       </div>
 
       <!-- Smart Logic -->

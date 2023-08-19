@@ -11,17 +11,18 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 })
 export class FormBuilderComponent {
 
-  constructor(
-    private FormBuilderService: FormBuilderService,
-  ) {}
-
   items: Widget[] = [];
   
-  addItem(newItem: Widget) {
-    
-    this.items.push(newItem);
+  constructor(private dataService: FormBuilderService) {
+    this.dataService.widgetList$.subscribe(value => {
+      this.items = value;
+    });
+  }
 
-  } 
+  addItem(newItem: Widget) {
+    this.dataService.updateWidgetList({...newItem});
+  }
+
 
   // Email validation function
   validateEmail(email: string) {
@@ -134,7 +135,7 @@ createWidget(event: DragEvent) {
 
 // Show form preview
 showPreview(fields: FormlyFieldConfig[]) {
-  this.FormBuilderService.openPreviewModal(fields);
+  this.dataService.openPreviewModal(fields);
 }
 
 }

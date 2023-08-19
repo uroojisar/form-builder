@@ -1,10 +1,11 @@
-.dropdown-arrow>.fa-solid {
-    color: black !important;
-    float: right !important;
+
+.dropdown {
+    padding: 5px;
 }
 
 .edit_widget_container_dropdown {
     min-width: 200px;
+    padding: 0px 10px ;
 
     .labelInput {
         font-weight: bold;

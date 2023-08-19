@@ -1,50 +1,24 @@
-.tab-content {
-    margin-top: 15px;
+.edit_widget_container_dropdown {
+  min-width: 200px;
 
-    #tab2 {
-        display: none;
-    }
-
-    .dropdown-arrow > .fa-solid {
-        color: black !important;
-        float: right !important;
-    }
-
-    // .dropdown.show{
-    //     display: flex !important;
-    //     justify-content:space-between !important;
-    //     align-items: center !important;
-    
-    //   }
-
-    .edit_widget_container_dropdown {
-    // display: none;
-    min-width: 200px;
-
-    // &.show {
-    //     display: block;
-    //   }
-
-    .labelInput {
+  .labelInput {
     font-weight: bold;
+  }
+
+  .font-weight-light {
+    color: #7d7c7c;
+    margin-top: 15px;
+    margin-bottom: 5px;
+  }
+
+  .enclose {
+    background-color: #f9f9f9;
+    padding: 12px;
+    border-radius: 7px;
+
+    .widgetLabel {
+      min-width: 100%;
     }
 
-    .font-weight-light {
-      color: #7d7c7c;
-      margin-top: 15px;
-      margin-bottom: 5px;
-    }
-    .enclose{
-      background-color: #f9f9f9;
-      padding: 12px;
-      border-radius: 7px;
-
-      .widgetLabel{
-        min-width: 100%;
-      }
-
-    }
-    }
+  }
 }
- 
-  

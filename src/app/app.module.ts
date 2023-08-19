@@ -44,6 +44,7 @@ import { FieldOptionsContentComponent } from './field-options-content/field-opti
     ReactiveFormsModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot(),
+    ReactiveFormsModule,
 
   ],
   providers: [FormBuilderService],
