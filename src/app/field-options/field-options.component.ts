@@ -18,8 +18,9 @@ export class FieldOptionsComponent implements OnInit {
   secondSelectOptions: { label: string, value: string; }[] = [];
   selectedWidget: Widget | { [key: string]: any; } = {};
   activeWidgetId: string = '';
+  enableSmartLogic: boolean = false;
 
-  myForm: FormGroup = new FormGroup({});
+  generalSettingsForm: FormGroup = new FormGroup({});
 
   constructor(private formBuilder: FormBuilder, private dataService: FormBuilderService) {
     this.dataService.activeWidgetId$.subscribe(value => {
@@ -31,13 +32,13 @@ export class FieldOptionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.myForm = this.formBuilder.group({
+    this.generalSettingsForm = this.formBuilder.group({
       widgetLabel: [''], // Initial value of the input
       // widgetLabel: ['', Validators.required] // Required validation
       widgetDesc: [''],
     });
 
-    // this.myForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
+    // this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
     //   var widgetToEdit = this.getWidgetById(this.activeWidgetId);
     //   widgetToEdit!.templateOptions.label = newLabel;
     //   console.log("items: ", this.items)
@@ -45,7 +46,7 @@ export class FieldOptionsComponent implements OnInit {
     //   // You can perform further actions here based on the changed input value
     // });
 
-    this.myForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
+    this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
         // Make sure to create a copy of the widget object to avoid modifying the source array directly``
@@ -59,7 +60,7 @@ export class FieldOptionsComponent implements OnInit {
       }
     }); 
 
-    this.myForm.get('widgetDesc')?.valueChanges.subscribe(newDesc => {
+    this.generalSettingsForm.get('widgetDesc')?.valueChanges.subscribe(newDesc => {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
         // Make sure to create a copy of the widget object to avoid modifying the source array directly``
