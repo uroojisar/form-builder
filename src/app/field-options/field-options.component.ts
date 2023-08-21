@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Widget } from '../form-builder/model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { FormBuilderService } from '../services/form-builder-service';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
 @Component({
   selector: 'app-field-options',
@@ -19,6 +20,14 @@ export class FieldOptionsComponent implements OnInit {
   selectedWidget: Widget | { [key: string]: any; } = {};
   activeWidgetId: string = '';
   enableSmartLogic: boolean = false;
+  options: FormlyFormOptions = {
+    formState: {
+      mainModel: {},
+      hide: false,
+      widgetId: '',
+      optionSelected: ''
+    },
+  };
 
   generalSettingsForm: FormGroup = new FormGroup({});
 
@@ -29,6 +38,9 @@ export class FieldOptionsComponent implements OnInit {
     this.dataService.widgetList$.subscribe(value => {
       this.items = value;
     });
+    this.dataService.formlyFormOptions$.subscribe(obj => {
+      this.options = obj;
+    });
   }
 
   ngOnInit() {
@@ -37,14 +49,6 @@ export class FieldOptionsComponent implements OnInit {
       // widgetLabel: ['', Validators.required] // Required validation
       widgetDesc: [''],
     });
-
-    // this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
-    //   var widgetToEdit = this.getWidgetById(this.activeWidgetId);
-    //   widgetToEdit!.templateOptions.label = newLabel;
-    //   console.log("items: ", this.items)
-      
-    //   // You can perform further actions here based on the changed input value
-    // });
 
     this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
@@ -87,12 +91,33 @@ export class FieldOptionsComponent implements OnInit {
 
   // Function to update the options of the second select based on the selected value of the first select
   updateSecondSelectOptions() {
-    
+    this.options.formState.widgetId = this.selectedValue1;
     this.selectedWidget = this.items.find((widget: any) => {
       return widget.id === this.selectedValue1;
     });
     this.secondSelectOptions = this.selectedWidget.templateOptions.options;
-    // console.log('ptions, ', this.secondSelectOptions)
     this.selectedValue2 = null; // Reset the value of the second select when the first select changes
+  }
+
+  onSecondSelectChange() {
+    // const sourceWidget = this.getWidgetById(this.activeWidgetId);
+    // const targetWidgetType = this.getWidgetById(this.options.formState?.widgetId)?.type;
+    // if (sourceWidget){
+    //   sourceWidget.expressions = {
+    //     hide: (field: FormlyFieldConfig) => {
+    //           var b = field.model.get(targetWidgetType) !== field.options?.formState?.option;
+    //           debugger
+    //           return b;
+    //           // if (field.options?.formState.model.widgetKey) {
+    //           //   return field.options?.formState.model.widgetKey.templateOptions.options.option !== field.options?.formState.option
+    //           // }
+    //           // return true;
+            
+    //         }, 
+    //   }
+    // }
+    
+    
+    this.options.formState.optionSelected = this.selectedValue2;    
   }
 }

@@ -79,6 +79,7 @@ createWidget(event: DragEvent) {
     widget.name = widgetFormInputText.name;
     widget.type = widgetFormInputText.type;
     widget.templateOptions = widgetFormInputText.templateOptions;
+    widget.expressions = widgetFormInputText.expressions;
     this.addItem(widget);
 
 

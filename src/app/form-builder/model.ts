@@ -1,4 +1,5 @@
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFieldProps } from '@ngx-formly/core';
+
 
 export type Widget = FormlyFieldConfig & {
   name: WidgetInputType;
@@ -6,6 +7,7 @@ export type Widget = FormlyFieldConfig & {
   id: string;
   key: string;
   templateOptions: {};
+  // expressions: { },
   
 };
 
@@ -31,6 +33,19 @@ export const widgetFormInputText: Widget = {
     placeholder: "Enter your text here...",
     required: true,
   },
+  // expressions: { 
+  //   hide: (field: FormlyFieldConfig) => {
+  //     debugger
+  //     var widgetKey = field.options?.formState?.widgetId;
+  //     return field.model[widgetKey]?.options !== field.options?.formState?.option;
+  //   },
+  // },
+  expressions: { 
+      hide: (field: FormlyFieldConfig) => {
+        return field.model.radio != field.options?.formState?.optionSelected;
+      },
+    },
+
 };
 
 export const widgetFormInputEmail: Widget = {
@@ -46,7 +61,8 @@ export const widgetFormInputEmail: Widget = {
     placeholder: "johndoe@gmail.com",
     required: true,
   },
-};
+}
+  
 
 export const widgetFormInputNumber: Widget = {
   name: 'Number',
