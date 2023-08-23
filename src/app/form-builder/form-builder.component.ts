@@ -48,7 +48,6 @@ export class FormBuilderComponent {
     }
   }
   onDragStart(event: DragEvent) {
-    console.log("dragstrat")
     event.dataTransfer!.setData('text/plain', (event.currentTarget as HTMLDivElement).id);
   }
   
@@ -70,7 +69,6 @@ createWidget(event: DragEvent) {
   var data = event.dataTransfer?.getData("text")!;
   var widgetType = this.getWidgetType(data);
   var widgetId = Date.now().toString();
-  var key = widgetId;
   const widget: Widget | any = {id: '', type: { }, isConditional: false};
 
   if (widgetType == "text") {
@@ -78,7 +76,7 @@ createWidget(event: DragEvent) {
     widget.key = widgetType;
     widget.name = widgetFormInputText.name;
     widget.type = widgetFormInputText.type;
-    widget.templateOptions = widgetFormInputText.templateOptions;
+    widget.props = widgetFormInputText.props;
     widget.expressions = widgetFormInputText.expressions;
     this.addItem(widget);
 
@@ -88,7 +86,8 @@ createWidget(event: DragEvent) {
     widget.key = widgetType;
     widget.name = widgetFormInputCheckbox.name;
     widget.type = widgetFormInputCheckbox.type;
-    widget.templateOptions = widgetFormInputCheckbox.templateOptions;
+    widget.props = widgetFormInputCheckbox.props;
+    widget.expressions = widgetFormInputCheckbox.expressions;
     this.addItem(widget);
   }
 
@@ -97,7 +96,9 @@ createWidget(event: DragEvent) {
     widget.key = widgetType;
     widget.name = widgetFormInputEmail.name;
     widget.type = widgetFormInputEmail.type;
-    widget.templateOptions = widgetFormInputEmail.templateOptions;
+    widget.props = widgetFormInputEmail.props;
+    widget.expressions = widgetFormInputEmail.expressions;
+
     this.addItem(widget);
 
 
@@ -128,7 +129,9 @@ createWidget(event: DragEvent) {
     widget.key = widgetType;
     widget.name = widgetFormInputRadio.name;
     widget.type = widgetFormInputRadio.type;
-    widget.templateOptions = widgetFormInputRadio.templateOptions;
+    widget.props = widgetFormInputRadio.props;
+    widget.expressions = widgetFormInputRadio.expressions;
+
     this.addItem(widget);
   }
   

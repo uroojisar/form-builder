@@ -1,4 +1,12 @@
-import { FormlyFieldConfig, FormlyFieldProps } from '@ngx-formly/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+
+// Custom function that will be used in the hide expression
+const customHideFunction = (field: FormlyFieldConfig, key: string) => {
+  if (field.model && field.model[key]){
+    return field.model[key] != field.options?.formState?.optionSelected;
+  }
+  return false;
+};
 
 
 export type Widget = FormlyFieldConfig & {
@@ -6,8 +14,7 @@ export type Widget = FormlyFieldConfig & {
   type: string;
   id: string;
   key: string;
-  templateOptions: {};
-  // expressions: { },
+  props: {};
   
 };
 
@@ -25,26 +32,22 @@ export const widgetFormInputText: Widget = {
   type: 'input',
   id: '1',
   key: '1',
-  templateOptions: {
+  props: {
     isConditional: false,
     type: 'text',
     label: 'Text Label',
     description: '',
     placeholder: "Enter your text here...",
     required: true,
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
   },
-  // expressions: { 
-  //   hide: (field: FormlyFieldConfig) => {
-  //     debugger
-  //     var widgetKey = field.options?.formState?.widgetId;
-  //     return field.model[widgetKey]?.options !== field.options?.formState?.option;
-  //   },
-  // },
-  expressions: { 
-      hide: (field: FormlyFieldConfig) => {
-        return field.model.radio != field.options?.formState?.optionSelected;
-      },
-    },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+  },
+ 
 
 };
 
@@ -53,13 +56,20 @@ export const widgetFormInputEmail: Widget = {
   type: 'email',
   id: '2',
   key: '2',
-  templateOptions: {
+  props: {
     isConditional: false,
     type: 'email',
     label: 'Email',
     description: '',
     placeholder: "johndoe@gmail.com",
     required: true,
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
+  },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
   },
 }
   
@@ -69,13 +79,20 @@ export const widgetFormInputNumber: Widget = {
   type: 'input',
   id: '3',
   key: '3',
-  templateOptions: {
+  props: {
     isConditional: false,
     type: 'number',
     label: 'Number Label',
     description: '',
     placeholder: "021 12233445",
     required: true,
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
+  },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
   },
 };
 
@@ -84,11 +101,18 @@ export const widgetFormInputDatepicker: Widget = {
   type: 'datepicker',
   id: '4',
   key: '4',
-  templateOptions: {
+  props: {
     isConditional: false,
     label: 'Date Picker Label',
     description: '',
     required: true,
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
+  },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
   },
 };
 
@@ -97,13 +121,20 @@ export const widgetFormInputRadio: Widget = {
   type: 'radio',
   id: '5',
   key: '5',
-  templateOptions: {
+  props: {
     isConditional: true,
     type: 'radio',
     label: 'Select one of the following',
     description: '',
     required: true,
     options: [{ label: 'Option 1...', value: 1 }, { label: 'Option 2...', value: 2 }],
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
+  },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
   },
 };
 
@@ -113,13 +144,20 @@ export const widgetFormInputCheckbox: Widget = {
   type: 'checkbox',
   id: '7',
   key: '7',
-  templateOptions: {
+  props: {
     isConditional: false,
     type: 'checkbox',
     label: 'Checkbox Label',
     description: '',
     required: true,
     options: [{ label: 'Option 1...', value: 1 }],
+    logic: {
+      targetWidgetType: '',
+      selectedOption: '',
+    }
+  },
+  expressions: {
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
   },
 };
 

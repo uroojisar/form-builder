@@ -20,15 +20,15 @@ import { FieldOptionsComponent } from '../field-options/field-options.component'
       </button>
     </div>
     <div class="innerDiv">
-      <label>{{item.templateOptions.label}}</label>:
-      <div *ngIf="item.templateOptions.options; else otherWidget">
-        <div *ngFor="let option of item.templateOptions.options">
-          <input class="form-input" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock">
+      <label>{{item.props.label}}</label>:
+      <div *ngIf="item.props.options; else otherWidget">
+        <div *ngFor="let option of item.props.options">
+          <input class="form-input" type="{{item.props.type}}" id="{{item.name}}InputBlock">
           <label for="{{option.value}}">{{option.label}}</label><br>
         </div>
       </div>
       <ng-template #otherWidget>
-      <input matInput class="form-control" type="{{item.templateOptions.type}}" id="{{item.name}}InputBlock" placeholder="{{item.templateOptions.placeholder}}">
+      <input matInput class="form-control" type="{{item.props.type}}" id="{{item.name}}InputBlock" placeholder="{{item.props.placeholder}}">
       </ng-template>
       </div>
   </div>
@@ -46,9 +46,6 @@ export class DropZoneComponent {
   activeWidgetId: string = '';
 
   constructor(private dataService: FormBuilderService) {
-    // this.dataService.widgetList$.subscribe(value => {
-    //   this.items = value;
-    // });
   }
 
   openWidgetSettings(widgetId: string): void {
@@ -57,7 +54,6 @@ export class DropZoneComponent {
     this.dataService.openWidgetSettingsDialog(componentPortal);
   }
   updateactiveWidgetId(widgetId: string) {
-    console.log("widgetId uodated: ", widgetId)
     this.dataService.updateactiveWidgetId(widgetId);
   }
 

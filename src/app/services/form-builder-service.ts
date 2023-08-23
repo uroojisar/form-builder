@@ -19,17 +19,33 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
     template: `
+    <div class="form-container">
+    <h4>Sales Form</h4><hr>
     <form [formGroup]="form" class="max-height">
       <formly-form
         [form]="form"
         [fields]="data.fields" 
         [model]="model"
-        [options]="options"
-      ></formly-form>
+        [options]="options">
+      <button type="submit" class="btn btn-primary">Submit</button>
+      </formly-form>
     </form>
+    </div>
     {{model | json}}
   `,
-  styles: ['.max-height { max-height: 90vh; }'],
+  styles: [ `
+  .form-container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 2px;
+    max-width: 280px;
+    margin: 5px auto;
+  }
+
+  .max-height {
+    max-height: 90vh;
+  }
+  `],
 })
 
 export class FormPreviewDialog {
@@ -85,11 +101,6 @@ export class FormBuilderService {
         },
   });
   formlyFormOptions$ = this.formlyFormOptionsSource.asObservable();
-  // options = {
-  //     formState: {
-  //       mainModel: this.model,
-  //     },
-  //   };
 
 
   updateactiveWidgetId(newValue: string) {
@@ -105,8 +116,12 @@ export class FormBuilderService {
   openPreviewModal(
     fields: FormlyFieldConfig[]
   ): MatDialogRef<FormPreviewDialog> {
-    debugger
-    return this.dialog.open(FormPreviewDialog, { data: { fields } });
+
+    return this.dialog.open(FormPreviewDialog, { 
+      width: '300px',
+      height: '250px',
+      data: { fields } 
+    });
   }
 
   openWidgetSettingsDialog(componentPortal: ComponentPortal<any>): void {

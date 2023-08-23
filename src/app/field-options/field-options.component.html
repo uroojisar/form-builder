@@ -34,14 +34,14 @@
           </select>
           <i style="padding-left: 10px;">this field if</i><br>
         <!-- Make conditional selection here -->
-        <select class="widgetLabelSelect" [(ngModel)]="selectedValue1" (change)="onFirstSelectChange()">
+        <select class="select-label" [(ngModel)]="selectedLabelId" (change)="onSelectLabelChange()">
           <option value="">Select an option</option> 
           <ng-container *ngFor="let widget of items">
-              <option [value]="widget.id" *ngIf="widget.templateOptions.isConditional && widget.id != activeWidgetId">{{widget.templateOptions.label}}</option>
+              <option [value]="widget.id" *ngIf="widget.props.isConditional && widget.id != activeWidgetId">{{widget.props.label}}</option>
           </ng-container>
         </select> 
            is
-          <select class="second-select" [(ngModel)]="selectedValue2" (change)="onSecondSelectChange()">
+          <select class="select-option" [(ngModel)]="selectedOptionId" (change)="onSelectOptionChange()">
               <option *ngFor="let option of secondSelectOptions" [value]="option.value">{{ option.label }}</option>
           </select>
   

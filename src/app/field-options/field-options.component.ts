@@ -14,8 +14,8 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 export class FieldOptionsComponent implements OnInit {
 
   @Input('items') items : Widget[] | any = [];
-  selectedValue1: string | null = null;
-  selectedValue2: string | null = null;
+  selectedLabelId: string | null = null;
+  selectedOptionId: string | null = null;
   secondSelectOptions: { label: string, value: string; }[] = [];
   selectedWidget: Widget | { [key: string]: any; } = {};
   activeWidgetId: string = '';
@@ -54,7 +54,7 @@ export class FieldOptionsComponent implements OnInit {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
         // Make sure to create a copy of the widget object to avoid modifying the source array directly``
-        const updatedWidget = {...widgetToEdit, templateOptions: {...widgetToEdit.templateOptions, label: newLabel}};
+        const updatedWidget = {...widgetToEdit, props: {...widgetToEdit.props, label: newLabel}};
         // Update the specific widget in your array (items) with the modified widgetToEdit
         const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
         if (index !== -1) {
@@ -68,7 +68,7 @@ export class FieldOptionsComponent implements OnInit {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
         // Make sure to create a copy of the widget object to avoid modifying the source array directly``
-        const updatedWidget = {...widgetToEdit, templateOptions: {...widgetToEdit.templateOptions, description: newDesc}};
+        const updatedWidget = {...widgetToEdit, props: {...widgetToEdit.props, description: newDesc}};
         // Update the specific widget in your array (items) with the modified widgetToEdit
         const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
         if (index !== -1) {
@@ -85,39 +85,33 @@ export class FieldOptionsComponent implements OnInit {
   }
 
   // Function to handle when the first select option changes
-  onFirstSelectChange() {
+  onSelectLabelChange() {
     this.updateSecondSelectOptions();
   }
 
   // Function to update the options of the second select based on the selected value of the first select
   updateSecondSelectOptions() {
-    this.options.formState.widgetId = this.selectedValue1;
-    this.selectedWidget = this.items.find((widget: any) => {
-      return widget.id === this.selectedValue1;
-    });
-    this.secondSelectOptions = this.selectedWidget.templateOptions.options;
-    this.selectedValue2 = null; // Reset the value of the second select when the first select changes
+    if(this.selectedLabelId != ""){
+      this.options.formState.widgetId = this.selectedLabelId;
+      this.selectedWidget = this.items.find((widget: any) => {
+        return widget.id === this.selectedLabelId;
+      });
+      this.secondSelectOptions = this.selectedWidget.props.options;
+      this.selectedOptionId = null; // Reset the value of the second select when the first select changes
+    }
+    
   }
 
-  onSecondSelectChange() {
-    // const sourceWidget = this.getWidgetById(this.activeWidgetId);
-    // const targetWidgetType = this.getWidgetById(this.options.formState?.widgetId)?.type;
-    // if (sourceWidget){
-    //   sourceWidget.expressions = {
-    //     hide: (field: FormlyFieldConfig) => {
-    //           var b = field.model.get(targetWidgetType) !== field.options?.formState?.option;
-    //           debugger
-    //           return b;
-    //           // if (field.options?.formState.model.widgetKey) {
-    //           //   return field.options?.formState.model.widgetKey.templateOptions.options.option !== field.options?.formState.option
-    //           // }
-    //           // return true;
-            
-    //         }, 
-    //   }
-    // }
-    
-    
-    this.options.formState.optionSelected = this.selectedValue2;    
+  onSelectOptionChange() {
+    const sourceWidget = this.getWidgetById(this.activeWidgetId);
+    const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;
+    this.options.formState.optionSelected = this.selectedOptionId;    
+    if (sourceWidget){
+      const updatedWidget = {...sourceWidget, props: {...sourceWidget.props, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOption: this.options.formState?.optionSelected}}}
+      const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
+        if (index !== -1) {
+          this.items[index] = updatedWidget;
+        }
+    }
   }
 }
