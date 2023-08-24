@@ -28,9 +28,10 @@
           <label class="form-check-label" for="flexSwitchCheckDefault" style="padding-bottom: 10px;">Enable smart logic</label>
         </div>
         <div *ngIf="enableSmartLogic">
-          <select>
-            <option>Show</option>
-            <option>Hide</option>
+          <select [(ngModel)]="isShow" (change)="onSelectShowChange()">
+            <option value="null" disabled>Show/Hide</option> 
+            <option value="true">Show</option>
+            <option value="false">Hide</option>
           </select>
           <i style="padding-left: 10px;">this field if</i><br>
         <!-- Make conditional selection here -->

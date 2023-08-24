@@ -2,10 +2,23 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 // Custom function that will be used in the hide expression
 const customHideFunction = (field: FormlyFieldConfig, key: string) => {
+  
   if (field.model && field.model[key]){
-    return field.model[key] != field.options?.formState?.optionSelected;
+    if (field.options?.formState?.isShow){
+      return field.model[key] != field.options?.formState?.optionSelected;
+    }
+    else if (field.options?.formState?.isShow == false){
+      return field.model[key] == field.options?.formState?.optionSelected;
+    }
+    else {
+      return false;
+    }
+
+  } else {
+    // whether to hide or show the form field initially?
+    return false;
   }
-  return false;
+  
 };
 
 
@@ -53,7 +66,7 @@ export const widgetFormInputText: Widget = {
 
 export const widgetFormInputEmail: Widget = {
   name: 'Email',
-  type: 'email',
+  type: 'input',
   id: '2',
   key: '2',
   props: {
@@ -98,11 +111,12 @@ export const widgetFormInputNumber: Widget = {
 
 export const widgetFormInputDatepicker: Widget = {
   name: 'DatePicker',
-  type: 'datepicker',
+  type: 'input',
   id: '4',
   key: '4',
   props: {
     isConditional: false,
+    type: 'datepicker',
     label: 'Date Picker Label',
     description: '',
     required: true,

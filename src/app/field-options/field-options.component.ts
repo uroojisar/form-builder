@@ -23,11 +23,11 @@ export class FieldOptionsComponent implements OnInit {
   options: FormlyFormOptions = {
     formState: {
       mainModel: {},
-      hide: false,
       widgetId: '',
       optionSelected: ''
     },
   };
+  isShow: boolean | null = null;
 
   generalSettingsForm: FormGroup = new FormGroup({});
 
@@ -41,13 +41,16 @@ export class FieldOptionsComponent implements OnInit {
     this.dataService.formlyFormOptions$.subscribe(obj => {
       this.options = obj;
     });
+    this.dataService.isShow$.subscribe(val => {
+      this.isShow = val;
+    });
   }
 
   ngOnInit() {
     this.generalSettingsForm = this.formBuilder.group({
-      widgetLabel: [''], // Initial value of the input
+      widgetLabel: [this.getWidgetById(this.activeWidgetId)?.props.label], // Initial value of the input
       // widgetLabel: ['', Validators.required] // Required validation
-      widgetDesc: [''],
+      widgetDesc: [this.getWidgetById(this.activeWidgetId)?.props.description],
     });
 
     this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
@@ -84,6 +87,17 @@ export class FieldOptionsComponent implements OnInit {
     return this.items.find((widget: Widget) => widget.id === id);
   }
 
+  onSelectShowChange(){
+    if (this.isShow !== null) {
+      if (this.isShow){
+        this.options.formState.isShow = true;
+      } else{
+        this.options.formState.isShow = false;
+
+      }
+    }
+    
+  }
   // Function to handle when the first select option changes
   onSelectLabelChange() {
     this.updateSecondSelectOptions();

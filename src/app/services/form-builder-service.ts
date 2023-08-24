@@ -51,7 +51,9 @@ import { BrowserModule } from '@angular/platform-browser';
 export class FormPreviewDialog {
 
     listOfWidgets: Widget[] = [];
-    model: any = {};
+    model: any = {
+      id: '',
+    };
 
     constructor(
       @Inject(MAT_DIALOG_DATA) public data: { fields: FormlyFieldConfig[] }, private dataService: FormBuilderService
@@ -95,12 +97,15 @@ export class FormBuilderService {
   private formlyFormOptionsSource = new BehaviorSubject<FormlyFormOptions>({
     formState: {
           mainModel: {},
-          hide: false,
           widgetId: '',
-          optionSelected: ''
+          optionSelected: '',
+          isShow: null,
         },
   });
   formlyFormOptions$ = this.formlyFormOptionsSource.asObservable();
+
+  isShowSource: BehaviorSubject<boolean | null> =  new BehaviorSubject<boolean | null>(null);
+  isShow$ = this.isShowSource.asObservable(); 
 
 
   updateactiveWidgetId(newValue: string) {
