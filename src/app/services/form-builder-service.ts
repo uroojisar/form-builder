@@ -21,14 +21,14 @@ import { BrowserModule } from '@angular/platform-browser';
     template: `
     <div class="form-container">
     <h4>Sales Form</h4><hr>
-    <form [formGroup]="form" class="max-height">
+    <form role="form" [formGroup]="form" class="max-height">
       <formly-form
         [form]="form"
         [fields]="data.fields" 
         [model]="model"
         [options]="options">
-      <button type="submit" class="btn btn-primary">Submit</button>
       </formly-form>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     </div>
     {{model | json}}
@@ -52,7 +52,9 @@ export class FormPreviewDialog {
 
     listOfWidgets: Widget[] = [];
     model: any = {
-      id: '',
+    };
+    form = new FormGroup({});
+    options: FormlyFormOptions = {
     };
 
     constructor(
@@ -60,23 +62,12 @@ export class FormPreviewDialog {
     ) {
       this.dataService.formlyFormOptions$.subscribe(obj => {
         this.options = obj;
-        this.options.formState!.mainModel = this.model;
 
       });
       this.dataService.widgetList$.subscribe(list => {
         this.listOfWidgets = list;
       });
     }
-  
-    form = new FormGroup({});
-    options: FormlyFormOptions = {};
-    // initially options obj. was here
-    // options = {
-    //   formState: {
-    //     mainModel: this.model,
-    //   },
-    // };
-
   }
 
   
@@ -104,9 +95,6 @@ export class FormBuilderService {
   });
   formlyFormOptions$ = this.formlyFormOptionsSource.asObservable();
 
-  isShowSource: BehaviorSubject<boolean | null> =  new BehaviorSubject<boolean | null>(null);
-  isShow$ = this.isShowSource.asObservable(); 
-
 
   updateactiveWidgetId(newValue: string) {
     this.activeWidgetIdSource.next(newValue);
@@ -116,6 +104,10 @@ export class FormBuilderService {
     const currentWidgets = this.widgetListSource.value;
     currentWidgets.push(newWidget);
     this.widgetListSource.next(currentWidgets);
+  }
+
+  updateFormlyFormOptions(newValue: FormlyFormOptions) {
+    this.formlyFormOptionsSource.next(newValue);
   }
 
   openPreviewModal(
@@ -131,7 +123,7 @@ export class FormBuilderService {
 
   openWidgetSettingsDialog(componentPortal: ComponentPortal<any>): void {
     this.dialog.open(FieldOptionsContentComponent, {
-      width: '400px',
+      width: '500px',
       data: componentPortal,
     });
   }

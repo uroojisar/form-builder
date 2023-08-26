@@ -14,20 +14,17 @@ import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 export class FieldOptionsComponent implements OnInit {
 
   @Input('items') items : Widget[] | any = [];
-  selectedLabelId: string | null = null;
-  selectedOptionId: string | null = null;
   secondSelectOptions: { label: string, value: string; }[] = [];
   selectedWidget: Widget | { [key: string]: any; } = {};
   activeWidgetId: string = '';
-  enableSmartLogic: boolean = false;
   options: FormlyFormOptions = {
     formState: {
       mainModel: {},
       widgetId: '',
-      optionSelected: ''
+      optionSelected: '',
+      isShow: null,
     },
   };
-  isShow: boolean | null = null;
 
   generalSettingsForm: FormGroup = new FormGroup({});
 
@@ -41,9 +38,6 @@ export class FieldOptionsComponent implements OnInit {
     this.dataService.formlyFormOptions$.subscribe(obj => {
       this.options = obj;
     });
-    this.dataService.isShow$.subscribe(val => {
-      this.isShow = val;
-    });
   }
 
   ngOnInit() {
@@ -51,6 +45,11 @@ export class FieldOptionsComponent implements OnInit {
       widgetLabel: [this.getWidgetById(this.activeWidgetId)?.props.label], // Initial value of the input
       // widgetLabel: ['', Validators.required] // Required validation
       widgetDesc: [this.getWidgetById(this.activeWidgetId)?.props.description],
+      enableSmartLogic: [false],
+      isShow: [this.options.formState?.isShow],
+      selectedLabelId: [this.getWidgetById(this.options.formState?.widgetId)?.id , null ],
+      selectedOptionValue: [this.options.formState?.optionSelected],
+
     });
 
     this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
@@ -80,6 +79,7 @@ export class FieldOptionsComponent implements OnInit {
         // this.dataService.updateWidgetList(this.items); // To test this.. seems it automatically updates a global widget list in service file
       }
     });
+
   }
 
   // Get widget obj by id from widgets list
@@ -88,13 +88,12 @@ export class FieldOptionsComponent implements OnInit {
   }
 
   onSelectShowChange(){
-    if (this.isShow !== null) {
-      if (this.isShow){
-        this.options.formState.isShow = true;
-      } else{
-        this.options.formState.isShow = false;
-
+    if (this.generalSettingsForm.get('isShow')?.value !== null) {
+      var updatedOptions: FormlyFormOptions = {};
+      if (this.generalSettingsForm.get('isShow')?.value){
+        updatedOptions = {...this.options, formState: {...this.options.formState, isShow:  this.generalSettingsForm.get('isShow')?.value}};
       }
+      this.dataService.updateFormlyFormOptions(updatedOptions);
     }
     
   }
@@ -105,23 +104,32 @@ export class FieldOptionsComponent implements OnInit {
 
   // Function to update the options of the second select based on the selected value of the first select
   updateSecondSelectOptions() {
-    if(this.selectedLabelId != ""){
-      this.options.formState.widgetId = this.selectedLabelId;
+    if(this.generalSettingsForm.get('selectedLabelId')?.value !== null){
+
+      const updatedOptions = {...this.options, formState: {...this.options.formState, widgetId:  this.generalSettingsForm.get('selectedLabelId')?.value}};
+      this.dataService.updateFormlyFormOptions(updatedOptions);
+
       this.selectedWidget = this.items.find((widget: any) => {
-        return widget.id === this.selectedLabelId;
+        return widget.id === this.generalSettingsForm.get('selectedLabelId')?.value;
       });
       this.secondSelectOptions = this.selectedWidget.props.options;
-      this.selectedOptionId = null; // Reset the value of the second select when the first select changes
+      // this.generalSettingsForm.get('selectedLabelId')?.setValue(null);  // Reset the value of the second select when the first select changes
     }
     
   }
 
   onSelectOptionChange() {
+
     const sourceWidget = this.getWidgetById(this.activeWidgetId);
-    const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;
-    this.options.formState.optionSelected = this.selectedOptionId;    
+    const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;  
+     
+    const updatedOptions = {...this.options, formState: {...this.options.formState, optionSelected:  this.generalSettingsForm.get('selectedOptionValue')?.value}}
+    this.dataService.updateFormlyFormOptions(updatedOptions);
+
+    const selectedOptionIndex = this.secondSelectOptions.findIndex((option: any) => option.value == this.options.formState?.optionSelected);
+    
     if (sourceWidget){
-      const updatedWidget = {...sourceWidget, props: {...sourceWidget.props, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOption: this.options.formState?.optionSelected}}}
+      const updatedWidget = {...sourceWidget, props: {...sourceWidget.props, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOptionIndex: selectedOptionIndex, selectedOption: this.options.formState?.optionSelected,}}}
       const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
         if (index !== -1) {
           this.items[index] = updatedWidget;

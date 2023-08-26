@@ -4,18 +4,20 @@
       
       <!-- General settings -->
       <p class="font-weight-light">General</p>
+      <form [formGroup]="generalSettingsForm">
       <div class="enclose">
-        <form [formGroup]="generalSettingsForm">
           <label for="labelInput">Label:</label>
           
           <input *ngIf="generalSettingsForm" type="text" formControlName="widgetLabel" class="widgetLabel">
           <div *ngIf="generalSettingsForm?.get('widgetLabel')?.hasError('required') && generalSettingsForm?.get('widgetLabel')?.touched" class="error-message">
-            Input value is required.
+            Widget label is required!
           </div>
     
         <label for="descriptionInput">Description:</label>
         <textarea *ngIf="generalSettingsForm" formControlName="widgetDesc" class="form-control" id="desc" rows="3"></textarea>
-      </form>
+        <div *ngIf="generalSettingsForm?.get('widgetDesc')?.hasError('required') && generalSettingsForm?.get('widgetDesc')?.touched" class="error-message">
+          Widget description is required!
+        </div>
       </div>
 
       <!-- Smart Logic -->
@@ -24,30 +26,35 @@
 
       <div class="enclose">
         <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="enableSmartLogic">
+          <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" formControlName="enableSmartLogic">
           <label class="form-check-label" for="flexSwitchCheckDefault" style="padding-bottom: 10px;">Enable smart logic</label>
         </div>
-        <div *ngIf="enableSmartLogic">
-          <select [(ngModel)]="isShow" (change)="onSelectShowChange()">
+        <div *ngIf="generalSettingsForm?.get('enableSmartLogic')?.value">
+          <select formControlName="isShow" (change)="onSelectShowChange()">
             <option value="null" disabled>Show/Hide</option> 
             <option value="true">Show</option>
             <option value="false">Hide</option>
           </select>
           <i style="padding-left: 10px;">this field if</i><br>
         <!-- Make conditional selection here -->
-        <select class="select-label" [(ngModel)]="selectedLabelId" (change)="onSelectLabelChange()">
-          <option value="">Select an option</option> 
+        <!-- <ng-container *ngIf="generalSettingsForm?.get('isShow')?.value"> -->
+          <select class="select-label" formControlName="selectedLabelId" (change)="onSelectLabelChange()">
+          <option value="null" disabled>Select a widget</option> 
           <ng-container *ngFor="let widget of items">
               <option [value]="widget.id" *ngIf="widget.props.isConditional && widget.id != activeWidgetId">{{widget.props.label}}</option>
           </ng-container>
         </select> 
            is
-          <select class="select-option" [(ngModel)]="selectedOptionId" (change)="onSelectOptionChange()">
+          <select class="select-option" formControlName="selectedOptionValue" (change)="onSelectOptionChange()">
+          <option value="null" disabled>Select an option</option> 
               <option *ngFor="let option of secondSelectOptions" [value]="option.value">{{ option.label }}</option>
           </select>
+        <!-- </ng-container> -->
   
           <!-- Second logic -->
         </div>
     </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
     </div>
 </div>

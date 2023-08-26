@@ -2,18 +2,16 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 // Custom function that will be used in the hide expression
 const customHideFunction = (field: FormlyFieldConfig, key: string) => {
-  
   if (field.model && field.model[key]){
-    if (field.options?.formState?.isShow){
+    if (field.options?.formState?.isShow == "true"){
       return field.model[key] != field.options?.formState?.optionSelected;
     }
-    else if (field.options?.formState?.isShow == false){
+    else if (field.options?.formState?.isShow == "false"){
       return field.model[key] == field.options?.formState?.optionSelected;
     }
     else {
       return false;
     }
-
   } else {
     // whether to hide or show the form field initially?
     return false;
@@ -54,6 +52,7 @@ export const widgetFormInputText: Widget = {
     required: true,
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
@@ -78,6 +77,7 @@ export const widgetFormInputEmail: Widget = {
     required: true,
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
@@ -101,6 +101,7 @@ export const widgetFormInputNumber: Widget = {
     required: true,
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
@@ -122,6 +123,7 @@ export const widgetFormInputDatepicker: Widget = {
     required: true,
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
@@ -144,6 +146,7 @@ export const widgetFormInputRadio: Widget = {
     options: [{ label: 'Option 1...', value: 1 }, { label: 'Option 2...', value: 2 }],
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
@@ -167,6 +170,7 @@ export const widgetFormInputCheckbox: Widget = {
     options: [{ label: 'Option 1...', value: 1 }],
     logic: {
       targetWidgetType: '',
+      selectedOptionIndex: '',
       selectedOption: '',
     }
   },
