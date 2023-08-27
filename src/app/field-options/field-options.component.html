@@ -4,7 +4,7 @@
       
       <!-- General settings -->
       <p class="font-weight-light">General</p>
-      <form [formGroup]="generalSettingsForm">
+      <form [formGroup]="generalSettingsForm" (ngSubmit)="onSubmit()">
       <div class="enclose">
           <label for="labelInput">Label:</label>
           
@@ -35,9 +35,11 @@
             <option value="true">Show</option>
             <option value="false">Hide</option>
           </select>
+          <div *ngIf="generalSettingsForm?.get('isShow')?.hasError('required') && generalSettingsForm?.get('selectedLabelId')?.touched" class="error-message">
+              This field is required!
+            </div>
           <i style="padding-left: 10px;">this field if</i><br>
         <!-- Make conditional selection here -->
-        <!-- <ng-container *ngIf="generalSettingsForm?.get('isShow')?.value"> -->
           <select class="select-label" formControlName="selectedLabelId" (change)="onSelectLabelChange()">
           <option value="null" disabled>Select a widget</option> 
           <ng-container *ngFor="let widget of items">
@@ -49,7 +51,6 @@
           <option value="null" disabled>Select an option</option> 
               <option *ngFor="let option of secondSelectOptions" [value]="option.value">{{ option.label }}</option>
           </select>
-        <!-- </ng-container> -->
   
           <!-- Second logic -->
         </div>

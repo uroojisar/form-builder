@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Widget } from '../form-builder/model';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormBuilderService } from '../services/form-builder-service';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
 
@@ -80,6 +80,20 @@ export class FieldOptionsComponent implements OnInit {
       }
     });
 
+    // Added validators dynamically
+    this.generalSettingsForm.get('selectedLabelId')?.valueChanges.subscribe(selectedValue => {
+      if (selectedValue !== null) {
+        // Add validators to isShow
+        this.generalSettingsForm.get('isShow')?.setValidators([Validators.required]);
+      } else {
+
+        // Clear validators from isShow
+        this.generalSettingsForm.get('isShow')?.clearValidators();
+      }
+      // Update the validity of isShow
+      this.generalSettingsForm.get('isShow')?.updateValueAndValidity();
+    });
+
   }
 
   // Get widget obj by id from widgets list
@@ -122,7 +136,7 @@ export class FieldOptionsComponent implements OnInit {
 
     const sourceWidget = this.getWidgetById(this.activeWidgetId);
     const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;  
-     
+
     const updatedOptions = {...this.options, formState: {...this.options.formState, optionSelected:  this.generalSettingsForm.get('selectedOptionValue')?.value}}
     this.dataService.updateFormlyFormOptions(updatedOptions);
 
@@ -134,6 +148,17 @@ export class FieldOptionsComponent implements OnInit {
         if (index !== -1) {
           this.items[index] = updatedWidget;
         }
+    }
+  }
+
+  onSubmit() {
+    if (this.generalSettingsForm.valid) {
+      // Form is valid, perform actions here
+      // For example, you can send data to a server
+      console.log('Form is valid. Submitting...');
+      // Your code to handle the submission
+    } else {
+      console.log('Form is not valid.');
     }
   }
 }
