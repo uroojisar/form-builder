@@ -27,6 +27,9 @@ export class FieldOptionsComponent implements OnInit {
   };
 
   generalSettingsForm: FormGroup = new FormGroup({});
+  updatedWidget: Widget | { [key: string]: any; } = {};
+  updatedOptions: FormlyFormOptions = {};
+
 
   constructor(private formBuilder: FormBuilder, private dataService: FormBuilderService) {
     this.dataService.activeWidgetId$.subscribe(value => {
@@ -43,7 +46,6 @@ export class FieldOptionsComponent implements OnInit {
   ngOnInit() {
     this.generalSettingsForm = this.formBuilder.group({
       widgetLabel: [this.getWidgetById(this.activeWidgetId)?.props.label], // Initial value of the input
-      // widgetLabel: ['', Validators.required] // Required validation
       widgetDesc: [this.getWidgetById(this.activeWidgetId)?.props.description],
       enableSmartLogic: [false],
       isShow: [this.options.formState?.isShow],
@@ -55,13 +57,9 @@ export class FieldOptionsComponent implements OnInit {
     this.generalSettingsForm.get('widgetLabel')?.valueChanges.subscribe(newLabel => {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
-        // Make sure to create a copy of the widget object to avoid modifying the source array directly``
-        const updatedWidget = {...widgetToEdit, props: {...widgetToEdit.props, label: newLabel}};
-        // Update the specific widget in your array (items) with the modified widgetToEdit
-        const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
-        if (index !== -1) {
-          this.items[index] = updatedWidget;
-        }
+        // Make sure to create a copy of the widget object to avoid modifying the source array directly
+        this.updatedWidget = {...widgetToEdit, props: {...widgetToEdit.props, label: newLabel}};
+        
         // this.dataService.updateWidgetList(this.items); // To test this
       }
     }); 
@@ -70,17 +68,12 @@ export class FieldOptionsComponent implements OnInit {
       const widgetToEdit = this.getWidgetById(this.activeWidgetId);
       if (widgetToEdit) {
         // Make sure to create a copy of the widget object to avoid modifying the source array directly``
-        const updatedWidget = {...widgetToEdit, props: {...widgetToEdit.props, description: newDesc}};
-        // Update the specific widget in your array (items) with the modified widgetToEdit
-        const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
-        if (index !== -1) {
-          this.items[index] = updatedWidget;
-        }
+        this.updatedWidget = {...this.updatedWidget, props: {...this.updatedWidget.props, description: newDesc}};
         // this.dataService.updateWidgetList(this.items); // To test this.. seems it automatically updates a global widget list in service file
       }
     });
 
-    // Added validators dynamically
+    // Added validators to isShow dynamically
     this.generalSettingsForm.get('selectedLabelId')?.valueChanges.subscribe(selectedValue => {
       if (selectedValue !== null) {
         // Add validators to isShow
@@ -103,11 +96,9 @@ export class FieldOptionsComponent implements OnInit {
 
   onSelectShowChange(){
     if (this.generalSettingsForm.get('isShow')?.value !== null) {
-      var updatedOptions: FormlyFormOptions = {};
       if (this.generalSettingsForm.get('isShow')?.value){
-        updatedOptions = {...this.options, formState: {...this.options.formState, isShow:  this.generalSettingsForm.get('isShow')?.value}};
+        this.updatedOptions = {...this.options, formState: {...this.options.formState, isShow:  this.generalSettingsForm.get('isShow')?.value}};
       }
-      this.dataService.updateFormlyFormOptions(updatedOptions);
     }
     
   }
@@ -120,9 +111,7 @@ export class FieldOptionsComponent implements OnInit {
   updateSecondSelectOptions() {
     if(this.generalSettingsForm.get('selectedLabelId')?.value !== null){
 
-      const updatedOptions = {...this.options, formState: {...this.options.formState, widgetId:  this.generalSettingsForm.get('selectedLabelId')?.value}};
-      this.dataService.updateFormlyFormOptions(updatedOptions);
-
+      this.updatedOptions = {...this.updatedOptions, formState: {...this.updatedOptions.formState, widgetId:  this.generalSettingsForm.get('selectedLabelId')?.value}};
       this.selectedWidget = this.items.find((widget: any) => {
         return widget.id === this.generalSettingsForm.get('selectedLabelId')?.value;
       });
@@ -134,31 +123,39 @@ export class FieldOptionsComponent implements OnInit {
 
   onSelectOptionChange() {
 
-    const sourceWidget = this.getWidgetById(this.activeWidgetId);
-    const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;  
-
-    const updatedOptions = {...this.options, formState: {...this.options.formState, optionSelected:  this.generalSettingsForm.get('selectedOptionValue')?.value}}
-    this.dataService.updateFormlyFormOptions(updatedOptions);
-
-    const selectedOptionIndex = this.secondSelectOptions.findIndex((option: any) => option.value == this.options.formState?.optionSelected);
     
-    if (sourceWidget){
-      const updatedWidget = {...sourceWidget, props: {...sourceWidget.props, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOptionIndex: selectedOptionIndex, selectedOption: this.options.formState?.optionSelected,}}}
-      const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
-        if (index !== -1) {
-          this.items[index] = updatedWidget;
-        }
-    }
+
+    this.updatedOptions = {...this.updatedOptions, formState: {...this.updatedOptions.formState, optionSelected:  this.generalSettingsForm.get('selectedOptionValue')?.value}}
+
   }
 
   onSubmit() {
     if (this.generalSettingsForm.valid) {
       // Form is valid, perform actions here
-      // For example, you can send data to a server
       console.log('Form is valid. Submitting...');
-      // Your code to handle the submission
+      const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
+      if (index !== -1) {
+        this.items[index] = this.updatedWidget;
+      }
+      // options updated in service
+      this.dataService.updateFormlyFormOptions(this.updatedOptions);
+
+      const sourceWidget = this.getWidgetById(this.activeWidgetId);
+      const targetType = this.getWidgetById(this.options.formState?.widgetId)?.type;  
+      const selectedOptionIndex = this.secondSelectOptions.findIndex((option: any) => option.value == this.options.formState?.optionSelected);
+      
+      if (sourceWidget){
+        const updatedWidget = {...sourceWidget, props: {...sourceWidget.props, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOptionIndex: selectedOptionIndex, selectedOption: this.options.formState?.optionSelected,}}}
+        debugger
+        const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
+          if (index !== -1) {
+            this.items[index] = updatedWidget;
+          }
+      }
+
     } else {
       console.log('Form is not valid.');
     }
   }
 }
+
