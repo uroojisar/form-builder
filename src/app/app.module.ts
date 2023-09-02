@@ -16,9 +16,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormlyModule } from '@ngx-formly/core';
 import { FormBuilderService } from './services/form-builder-service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FieldOptionsComponent } from './field-options/field-options.component';
 import { FieldOptionsContentComponent } from './field-options-content/field-options-content.component';
+import { FormlyMaterialModule } from '@ngx-formly/material';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,7 @@ import { FieldOptionsContentComponent } from './field-options-content/field-opti
     FormlyModule,
     MatDialogModule,
     ReactiveFormsModule,
-    FormlyBootstrapModule,
+    FormlyMaterialModule,
     FormlyModule.forRoot(),
     ReactiveFormsModule,
 

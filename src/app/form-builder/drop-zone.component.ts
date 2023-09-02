@@ -23,7 +23,7 @@ import { FieldOptionsComponent } from '../field-options/field-options.component'
       <label>{{item.props.label}}</label>:
       <div *ngIf="item.props.options; else otherWidget">
         <div *ngFor="let option of item.props.options">
-          <input class="form-input" type="{{item.props.type}}" id="{{item.name}}InputBlock">
+          <input class="form-input" type="{{item.props.type}}" id="{{item.name}}InputBlock" name="{{item.name}}">
           <label for="{{option.value}}">{{option.label}}</label><br>
         </div>
       </div>

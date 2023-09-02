@@ -7,13 +7,14 @@ import {
     MAT_DIALOG_DATA,
   } from '@angular/material/dialog';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { BehaviorSubject } from 'rxjs';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { FieldOptionsContentComponent } from '../field-options-content/field-options-content.component';
 import { FieldOptionsComponent } from '../field-options/field-options.component';
 import { Widget } from '../form-builder/model';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormlyMaterialModule } from '@ngx-formly/material';
+
 
 
 
@@ -30,8 +31,10 @@ import { BrowserModule } from '@angular/platform-browser';
       </formly-form>
       <button type="submit" class="btn btn-primary">Submit</button>
     </form>
-    </div>
+    <h5> Form data </h5>
     {{model | json}}
+    </div>
+    
   `,
   styles: [ `
   .form-container {
@@ -39,11 +42,12 @@ import { BrowserModule } from '@angular/platform-browser';
     padding: 20px;
     border-radius: 2px;
     max-width: 280px;
-    margin: 5px auto;
+    margin: 5px;
   }
 
   .max-height {
-    max-height: 90vh;
+    max-height: 80vh; /* Less than a viewport height triggers scrolling */
+    overflow-y: auto; /* or overflow-y: scroll; */ 
   }
   `],
 })
@@ -110,13 +114,11 @@ export class FormBuilderService {
     this.formlyFormOptionsSource.next(newValue);
   }
 
-  openPreviewModal(
-    fields: FormlyFieldConfig[]
-  ): MatDialogRef<FormPreviewDialog> {
-
+  openPreviewModal(fields: FormlyFieldConfig[]): MatDialogRef<FormPreviewDialog> {
+    debugger
     return this.dialog.open(FormPreviewDialog, { 
-      width: '300px',
-      height: '250px',
+      minWidth: '300px',
+      minHeight: '250px',
       data: { fields } 
     });
   }
@@ -133,7 +135,7 @@ export class FormBuilderService {
 imports: [
     MatDialogModule,
     ReactiveFormsModule,
-    FormlyBootstrapModule,
+    FormlyMaterialModule,
     FormlyModule.forChild(),
     BrowserModule,
 ],

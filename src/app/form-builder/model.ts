@@ -2,20 +2,24 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 // Custom function that will be used in the hide expression
 const customHideFunction = (field: FormlyFieldConfig, key: string) => {
+  let ans = false;
   if (field.model && field.model[key]){
+    
     if (field.options?.formState?.isShow == "true"){
-      return field.model[key] != field.options?.formState?.optionSelected;
+      ans = field.model[key] != field.options?.formState?.optionSelected;
     }
     else if (field.options?.formState?.isShow == "false"){
-      return field.model[key] == field.options?.formState?.optionSelected;
+      ans = field.model[key] == field.options?.formState?.optionSelected;
     }
     else {
-      return false;
+      ans = false;
     }
   } else {
     // whether to hide or show the form field initially?
-    return false;
+    ans = false;
   }
+  debugger
+  return ans;
   
 };
 
@@ -51,13 +55,15 @@ export const widgetFormInputText: Widget = {
     placeholder: "Enter your text here...",
     required: true,
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
+
   },
  
 
@@ -76,13 +82,14 @@ export const widgetFormInputEmail: Widget = {
     placeholder: "johndoe@gmail.com",
     required: true,
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
   },
 }
   
@@ -100,13 +107,15 @@ export const widgetFormInputNumber: Widget = {
     placeholder: "021 12233445",
     required: true,
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
+
   },
 };
 
@@ -122,13 +131,15 @@ export const widgetFormInputDatepicker: Widget = {
     description: '',
     required: true,
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
+
   },
 };
 
@@ -145,13 +156,15 @@ export const widgetFormInputRadio: Widget = {
     required: true,
     options: [{ label: 'Option 1...', value: 1 }, { label: 'Option 2...', value: 2 }],
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
+
   },
 };
 
@@ -169,13 +182,15 @@ export const widgetFormInputCheckbox: Widget = {
     required: true,
     options: [{ label: 'Option 1...', value: 1 }],
     logic: {
-      targetWidgetType: '',
+      targetWidgetId: '',
       selectedOptionIndex: '',
       selectedOption: '',
     }
   },
   expressions: {
-    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetType),
+    hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
+    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
+
   },
 };
 

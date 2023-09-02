@@ -49,7 +49,7 @@ export class FieldOptionsComponent implements OnInit {
       this.options = obj;
     });
     this.activeWidget = this.getWidgetById(this.activeWidgetId) as Widget;
-    this.activeWidgetOptions = this.getWidgetById(this.activeWidgetId)?.props.options as [];
+    this.activeWidgetOptions = this.activeWidget.props.options as [];
   }
 
   ngOnInit() {
@@ -58,9 +58,9 @@ export class FieldOptionsComponent implements OnInit {
       widgetLabel: [this.getWidgetById(this.activeWidgetId)?.props.label], // Initial value of the input
       widgetDesc: [this.getWidgetById(this.activeWidgetId)?.props.description],
       enableSmartLogic: [false],
-      isShow: [this.options.formState?.isShow],
-      selectedLabelId: [this.getWidgetById(this.options.formState?.widgetId)?.id , null ],
-      selectedOptionValue: [this.options.formState?.optionSelected],
+      isShow: [null],
+      selectedLabelId: [null],
+      selectedOptionValue: [null],
     });
     let i= 0;
     if (this.activeWidgetOptions){
@@ -84,13 +84,6 @@ export class FieldOptionsComponent implements OnInit {
       this.generalSettingsForm.get('isShow')?.updateValueAndValidity();
     });
 
-    if (this.activeWidgetOptions){
-    for (let i = 0; i < this.activeWidgetOptions.length; i++) {
-      this.generalSettingsForm.get('option_' + i)?.valueChanges.subscribe(val => {
-      console.log("option label: ", val)
-      });
-    }
-  }
   }
 
   // Get widget obj by id from widgets list
@@ -120,8 +113,7 @@ export class FieldOptionsComponent implements OnInit {
   }
 
   onSelectOptionChange() {
-    // this.updatedOptions = {...this.updatedOptions, formState: {...this.updatedOptions.formState, optionSelected:  this.generalSettingsForm.get('selectedOptionValue')?.value}}
-
+   
   }
 
   onSubmit() {
@@ -133,33 +125,40 @@ export class FieldOptionsComponent implements OnInit {
       this.updatedOptions = {...this.updatedOptions, formState: {...this.updatedOptions.formState, isShow:  formData.isShow, widgetId: formData.selectedLabelId, optionSelected: formData.selectedOptionValue}};
 
       const sourceWidget = this.getWidgetById(this.activeWidgetId);
-      const targetType = this.getWidgetById(formData.selectedLabelId)?.type;  
+      const targetWidgetId = formData.selectedLabelId;
       const selectedOptionIndex = this.secondSelectOptions.findIndex((option: any) => option.value == formData.selectedOptionValue);
 
-
-      // Widget updated in the service
       if (sourceWidget){
-        this.updatedWidget = {...sourceWidget, props: {...sourceWidget.props, label: formData.widgetLabel, desc: formData.widgetDesc, logic: {...sourceWidget.props['logic'], targetWidgetType: targetType, selectedOptionIndex: selectedOptionIndex, selectedOption: formData.selectedOptionValue}}}
-        const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
-          if (index !== -1) {
-            this.items[index] = this.updatedWidget;
+        
+        this.updatedWidget = {...sourceWidget, props: {...sourceWidget.props, label: formData.widgetLabel, description: formData.widgetDesc, logic: {...sourceWidget.props['logic'], targetWidgetId: targetWidgetId, selectedOptionIndex: selectedOptionIndex, selectedOption: formData.selectedOptionValue}}}
+      
+      }
+      let optionsData: { label: string; value: number }[] =[];
+      if (this.activeWidgetOptions){
+            // Deep cloning the object with JSON.parse(JSON.stringify())
+            optionsData = JSON.parse(JSON.stringify(this.activeWidgetOptions));
+
+            if (sourceWidget){
+            if (this.activeWidgetOptions){
+              for (let i = 0; i < this.activeWidgetOptions.length; i++) {
+                optionsData[i].label = formData[`option_${i}`] !== ''? formData[`option_${i}`] : this.activeWidgetOptions[i].label;
+                optionsData[i].value = this.activeWidgetOptions[i].value;
+            }
+            
+            }
+            this.updatedWidget = {...this.updatedWidget, props: {...this.updatedWidget.props, options: optionsData}}
+
+            
           }
       }
 
-      const optionsData: { label: string; value: number }[] = this.activeWidgetOptions;
-
-      if (sourceWidget){
-      if (this.activeWidgetOptions){
-        for (let i = 0; i < this.activeWidgetOptions.length; i++) {
-          
-          optionsData[i].label = formData[`option_${i}`];
-          optionsData[i].value = this.activeWidgetOptions[i].value;
+      
+  // Widget updated in the service
+    const index = this.items.findIndex((widget: Widget) => widget.id === this.activeWidgetId);
+      if (index !== -1) {
+        this.items[index] = this.updatedWidget;
       }
-      }
-    }
-
-    this.updatedWidget = {...this.updatedWidget, props: {...this.updatedWidget.props, options: optionsData}};
-
+      
     // options updated in service
     this.dataService.updateFormlyFormOptions(this.updatedOptions);
 

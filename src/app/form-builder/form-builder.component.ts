@@ -69,11 +69,11 @@ createWidget(event: DragEvent) {
   var data = event.dataTransfer?.getData("text")!;
   var widgetType = this.getWidgetType(data);
   var widgetId = Date.now().toString();
-  const widget: Widget | any = {id: '', type: { }, isConditional: false};
+  const widget: Widget | any = {};
 
   if (widgetType == "text") {
     widget.id = widgetId;
-    widget.key = widgetType;
+    widget.key = widgetId;
     widget.name = widgetFormInputText.name;
     widget.type = widgetFormInputText.type;
     widget.props = widgetFormInputText.props;
@@ -83,7 +83,7 @@ createWidget(event: DragEvent) {
 
   } else if (widgetType == "checkbox") {
     widget.id = widgetId;
-    widget.key = widgetType;
+    widget.key = widgetId;
     widget.name = widgetFormInputCheckbox.name;
     widget.type = widgetFormInputCheckbox.type;
     widget.props = widgetFormInputCheckbox.props;
@@ -93,7 +93,7 @@ createWidget(event: DragEvent) {
 
   else if (widgetType == "email") {
     widget.id = widgetId;
-    widget.key = widgetType;
+    widget.key = widgetId;
     widget.name = widgetFormInputEmail.name;
     widget.type = widgetFormInputEmail.type;
     widget.props = widgetFormInputEmail.props;
@@ -101,32 +101,10 @@ createWidget(event: DragEvent) {
 
     this.addItem(widget);
 
-
-    // // // *****************************VALIDATE EMAIL INPUT*****************************
-    // // formInput.addEventListener("keypress", function(event) {
-    // //   if (event.key === "Enter"){
-    // //     event.preventDefault();
-    // //     const email = (document.getElementById("emailblock")! as HTMLInputElement).value;
-
-    // //     // Validation and submit logic 
-    // //     // if (this.validateEmail(email)) {
-    // //     //     // Email is valid, proceed with submission or other logic
-    // //     //     console.log("Email is valid: " + email);
-    // //     // } else {
-    // //     //     // Invalid email, display error or take appropriate action
-    // //     //     console.log("Invalid email");
-    // //     // }
-
-    // //     // Clear the input field
-    // //     (document.getElementById("emailInput")! as HTMLInputElement).value = "";
-    // //   }
-
-    // });
-
   }
   else if (widgetType == "radio") {
     widget.id = widgetId;
-    widget.key = widgetType;
+    widget.key = widgetId;
     widget.name = widgetFormInputRadio.name;
     widget.type = widgetFormInputRadio.type;
     widget.props = widgetFormInputRadio.props;
