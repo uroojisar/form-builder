@@ -115,7 +115,7 @@ export class FormBuilderService {
   }
 
   openPreviewModal(fields: FormlyFieldConfig[]): MatDialogRef<FormPreviewDialog> {
-    debugger
+    
     return this.dialog.open(FormPreviewDialog, { 
       minWidth: '300px',
       minHeight: '250px',

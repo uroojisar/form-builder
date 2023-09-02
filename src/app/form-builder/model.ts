@@ -2,24 +2,21 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 
 // Custom function that will be used in the hide expression
 const customHideFunction = (field: FormlyFieldConfig, key: string) => {
-  let ans = false;
   if (field.model && field.model[key]){
     
     if (field.options?.formState?.isShow == "true"){
-      ans = field.model[key] != field.options?.formState?.optionSelected;
+      return field.model[key] != field.props?.['logic'].selectedOption;
     }
     else if (field.options?.formState?.isShow == "false"){
-      ans = field.model[key] == field.options?.formState?.optionSelected;
+      return field.model[key] == field.props?.['logic'].selectedOption;
     }
     else {
-      ans = false;
+      return false;
     }
   } else {
     // whether to hide or show the form field initially?
-    ans = false;
+    return false;
   }
-  debugger
-  return ans;
   
 };
 
