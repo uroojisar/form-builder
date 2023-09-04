@@ -9,5 +9,9 @@
   
   .innerDiv {
     padding: 10px;
+
+    .widget-label, .option-label {
+      padding-left: 5px;
+    }
   }
 }

@@ -22,7 +22,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
     template: `
     <div class="form-container">
     <h4>Sales Form</h4><hr>
-    <form role="form" [formGroup]="form" class="max-height">
+    <form role="form" [formGroup]="form" class="max-height" (ngSubmit)="onSubmit()">
       <formly-form
         [form]="form"
         [fields]="data.fields" 
@@ -71,6 +71,13 @@ export class FormPreviewDialog {
       this.dataService.widgetList$.subscribe(list => {
         this.listOfWidgets = list;
       });
+    }
+
+    onSubmit() {
+      if (this.form.valid) {
+        // Handle form submission
+        console.log('Form submitted');
+      }
     }
   }
 

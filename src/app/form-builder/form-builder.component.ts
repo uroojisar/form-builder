@@ -98,6 +98,7 @@ createWidget(event: DragEvent) {
     widget.type = widgetFormInputEmail.type;
     widget.props = widgetFormInputEmail.props;
     widget.expressions = widgetFormInputEmail.expressions;
+    widget.validators = widgetFormInputEmail.validators;
 
     this.addItem(widget);
 

@@ -59,7 +59,6 @@ export const widgetFormInputText: Widget = {
   },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
 
   },
  
@@ -84,10 +83,23 @@ export const widgetFormInputEmail: Widget = {
       selectedOption: '',
     }
   },
+  validators: {
+    email: { // Use the 'email' validator
+      expression: (control: { value: string; }) => {
+        if (!control.value) {
+          return true; // No validation if the field is empty
+        }
+        // Regular expression for email validation
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return regex.test(control.value) ? { invalidEmail: true }: null;
+      },
+      message: 'Invalid email address',
+    },
+  },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
   },
+  
 }
   
 
@@ -111,7 +123,6 @@ export const widgetFormInputNumber: Widget = {
   },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
 
   },
 };
@@ -135,7 +146,6 @@ export const widgetFormInputDatepicker: Widget = {
   },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
 
   },
 };
@@ -160,7 +170,6 @@ export const widgetFormInputRadio: Widget = {
   },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
 
   },
 };
@@ -177,7 +186,6 @@ export const widgetFormInputCheckbox: Widget = {
     label: 'Checkbox Label',
     description: '',
     required: true,
-    options: [{ label: 'Option 1...', value: 1 }],
     logic: {
       targetWidgetId: '',
       selectedOptionIndex: '',
@@ -186,7 +194,6 @@ export const widgetFormInputCheckbox: Widget = {
   },
   expressions: {
     hide: (field) => customHideFunction(field, field.props?.['logic'].targetWidgetId),
-    // hide: (field) => customHideFunction(field, field.options?.formState.widgetId),
 
   },
 };

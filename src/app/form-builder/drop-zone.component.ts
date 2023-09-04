@@ -20,15 +20,20 @@ import { FieldOptionsComponent } from '../field-options/field-options.component'
       </button>
     </div>
     <div class="innerDiv">
-      <label>{{item.props.label}}</label>:
+    <ng-container *ngIf="item.type != 'checkbox'">
+      <label class="widget-label">{{item.props.label}}</label>:
+    </ng-container>
       <div *ngIf="item.props.options; else otherWidget">
         <div *ngFor="let option of item.props.options">
           <input class="form-input" type="{{item.props.type}}" id="{{item.name}}InputBlock" name="{{item.name}}">
-          <label for="{{option.value}}">{{option.label}}</label><br>
+          <label class="option-label" for="{{option.value}}">{{option.label}}</label><br>
         </div>
       </div>
       <ng-template #otherWidget>
-      <input matInput class="form-control" type="{{item.props.type}}" id="{{item.name}}InputBlock" placeholder="{{item.props.placeholder}}">
+      <input type="{{item.props.type}}" id="{{item.name}}InputBlock" placeholder="{{item.props.placeholder}}">
+      <ng-container *ngIf="item.type == 'checkbox'">
+      <label class="widget-label">{{item.props.label}}</label>:
+      </ng-container>
       </ng-template>
       </div>
   </div>
