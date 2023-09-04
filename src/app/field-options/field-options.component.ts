@@ -17,7 +17,7 @@ export class FieldOptionsComponent implements OnInit {
 
   @Input('items') items : Widget[] | any = [];
   secondSelectOptions: { label: string, value: string; }[] = [];
-  // widget selected for smart logic/ radio widget
+  // widget selected for smart logic/ radio widget for now
   selectedWidget: Widget | { [key: string]: any; } = {};
   activeWidgetId: string = '';
   options: FormlyFormOptions = {
@@ -29,6 +29,7 @@ export class FieldOptionsComponent implements OnInit {
     },
   };
 
+  // Widget settings form
   generalSettingsForm: FormGroup = new FormGroup({});
   updatedWidget: Widget | { [key: string]: any; } = {};
   updatedOptions: FormlyFormOptions = {};
@@ -37,7 +38,7 @@ export class FieldOptionsComponent implements OnInit {
 
 
 
-
+// Subscribe to all global data here to see updated data
   constructor(private formBuilder: FormBuilder, private dataService: FormBuilderService, public dialogRef: MatDialogRef<FieldOptionsContentComponent>) {
     this.dataService.activeWidgetId$.subscribe(value => {
       this.activeWidgetId = value;
@@ -54,6 +55,7 @@ export class FieldOptionsComponent implements OnInit {
 
   ngOnInit() {
     
+    // initialize widget settings form
     this.generalSettingsForm = this.formBuilder.group({
       widgetLabel: [this.getWidgetById(this.activeWidgetId)?.props.label], // Initial value of the input
       widgetDesc: [this.getWidgetById(this.activeWidgetId)?.props.description],
@@ -70,7 +72,7 @@ export class FieldOptionsComponent implements OnInit {
       }  
     }
 
-    // Added validators to isShow dynamically
+    // Added validators to isShow (Show/ Hide field) dynamically
     this.generalSettingsForm.get('selectedLabelId')?.valueChanges.subscribe(selectedValue => {
       if (selectedValue !== null) {
         // Add validators to isShow
@@ -102,7 +104,6 @@ export class FieldOptionsComponent implements OnInit {
   updateSecondSelectOptions() {
     if(this.generalSettingsForm.get('selectedLabelId')?.value !== null){
 
-      // this.updatedOptions = {...this.updatedOptions, formState: {...this.updatedOptions.formState, widgetId:  this.generalSettingsForm.get('selectedLabelId')?.value}};
       this.selectedWidget = this.items.find((widget: any) => {
         return widget.id === this.generalSettingsForm.get('selectedLabelId')?.value;
       });
