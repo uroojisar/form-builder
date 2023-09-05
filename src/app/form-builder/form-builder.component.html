@@ -7,16 +7,18 @@
 </div>
 <div class="builder-canvas-background">
   <h3 style="text-align: center;">Sales Form</h3>
-  <mat-toolbar class="flex flex-row justify-between">
+  <mat-toolbar class="bootstrap-toolbar">
     
     <ng-container *ngIf="items.length">
       <button
         [disabled]="items.length < 1"
         mat-raised-button
         color="primary"
+        class="btn btn-primary"
         (click)="showPreview(items)"
+        style="display: flex; align-items: center; justify-content: center;"
       >
-        <mat-icon> visibility </mat-icon>
+        <mat-icon style="margin-right: 5px;"> visibility </mat-icon>
         Form preview
       </button>
     </ng-container>
