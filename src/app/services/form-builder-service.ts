@@ -49,6 +49,7 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
     max-height: 80vh; /* Less than a viewport height triggers scrolling */
     overflow-y: auto; /* or overflow-y: scroll; */ 
   }
+
   `],
 })
 

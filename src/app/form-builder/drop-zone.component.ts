@@ -30,7 +30,7 @@ import { FieldOptionsComponent } from '../field-options/field-options.component'
         </div>
       </div>
       <ng-template #otherWidget>
-      <input type="{{item.props.type}}" id="{{item.name}}InputBlock" placeholder="{{item.props.placeholder}}">
+      <input type="{{item.props.type}}" id="{{item.name}}InputBlock" placeholder="{{item.props.placeholder?item.props.placeholder:null}}">
       <ng-container *ngIf="item.type == 'checkbox'">
       <label class="widget-label">{{item.props.label}}</label>:
       </ng-container>
