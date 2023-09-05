@@ -8,4 +8,8 @@
 .widget {
     min-width: 120px;
     cursor: move;
+    
+    &:hover {
+        transform: scale(1.05);
+    }
 }
