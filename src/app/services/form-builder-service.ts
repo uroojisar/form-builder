@@ -21,34 +21,94 @@ import { FormlyMaterialModule } from '@ngx-formly/material';
 @Component({
     template: `
     <div class="form-container">
-    <h4>Sales Form</h4><hr>
-    <form role="form" [formGroup]="form" class="max-height" (ngSubmit)="onSubmit()">
-      <formly-form
-        [form]="form"
-        [fields]="data.fields" 
-        [model]="model"
-        [options]="options">
-      </formly-form>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-    <h5> Form data </h5>
-    {{model | json}}
+      <h2 class="form-title">Sales Form</h2>
+      <hr class="form-hr">
+      <form role="form" [formGroup]="form" class="max-height" (ngSubmit)="onSubmit()">
+        <formly-form
+          [form]="form"
+          [fields]="data.fields"
+          [model]="model"
+          [options]="options"
+        ></formly-form>
+        <button type="submit" class="form-submit-button">Submit</button>
+        <div class="form-data-container">
+          <h3 class="form-data-title">Form Data</h3>
+          <pre class="form-data-json">{{ model | json }}</pre>
+        </div>
+      </form>
     </div>
+
     
   `,
   styles: [ `
-  .form-container {
-    border: 1px solid #ccc;
-    padding: 20px;
-    border-radius: 2px;
-    max-width: 280px;
-    margin: 5px;
-  }
-
+ 
   .max-height {
     max-height: 80vh; /* Less than a viewport height triggers scrolling */
     overflow-y: auto; /* or overflow-y: scroll; */ 
   }
+
+  /* Styling for the form container */
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the form title */
+  .form-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Styling for the horizontal rule */
+  .form-hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
+  }
+  
+  /* Styling for the form submit button */
+  .form-submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  /* Styling for the form data container */
+  .form-data-container {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the form data title */
+  .form-data-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  /* Styling for the form data JSON */
+  .form-data-json {
+    white-space: pre-wrap;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+    color: #333;
+  }
+  
 
   `],
 })
